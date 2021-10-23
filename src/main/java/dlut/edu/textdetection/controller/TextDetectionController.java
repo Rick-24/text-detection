@@ -1,5 +1,6 @@
 package dlut.edu.textdetection.controller;
 
+import dlut.edu.textdetection.model.enums.GlobalErrorCode;
 import dlut.edu.textdetection.model.response.TextDetectionDTO;
 import dlut.edu.textdetection.model.result.InvokeResult;
 import dlut.edu.textdetection.service.TextDetectionService;
@@ -22,12 +23,14 @@ public class TextDetectionController {
     @RequestMapping("text")
     public InvokeResult<TextDetectionDTO> textDetect(String text) {
         validate(text);
-        TextDetectionDTO result = textDetectionService.process(text);
-
-        // todo 返回有意义的结果
-        return InvokeResultUtils.buildSuccessInvokeResult(result);
+        try {
+            TextDetectionDTO result = textDetectionService.process(text);
+            // todo 返回有意义的结果
+            return InvokeResultUtils.buildSuccessInvokeResult(result);
+        }catch(Exception e){
+            return InvokeResultUtils.buildFailedInvokeResult(GlobalErrorCode.SYSTEM_ERROR);
+        }
     }
-
 
 
     @RequestMapping("file")
@@ -54,6 +57,7 @@ public class TextDetectionController {
 
     /**
      * 请求入参前置校验
+     *
      * @param text
      */
     private void validate(String text) {
