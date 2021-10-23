@@ -1,6 +1,8 @@
 package dlut.edu.textdetection.controller;
 
+import dlut.edu.textdetection.model.result.InvokeResult;
 import dlut.edu.textdetection.service.TextDetectionService;
+import dlut.edu.textdetection.utils.InvokeResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,12 +19,12 @@ public class TextDetectionController {
     TextDetectionService textDetectionService;
 
     @RequestMapping("text")
-    public String textDetect(String text) {
+    public InvokeResult<String> textDetect(String text) {
         validate(text);
         textDetectionService.process(text);
 
         // todo 返回有意义的结果
-        return text;
+        return InvokeResultUtils.buildSuccessInvokeResult(text);
     }
 
 
