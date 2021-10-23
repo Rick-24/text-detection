@@ -1,5 +1,6 @@
 package dlut.edu.textdetection.controller;
 
+import dlut.edu.textdetection.model.response.TextDetectionDTO;
 import dlut.edu.textdetection.model.result.InvokeResult;
 import dlut.edu.textdetection.service.TextDetectionService;
 import dlut.edu.textdetection.utils.InvokeResultUtils;
@@ -19,12 +20,12 @@ public class TextDetectionController {
     TextDetectionService textDetectionService;
 
     @RequestMapping("text")
-    public InvokeResult<String> textDetect(String text) {
+    public InvokeResult<TextDetectionDTO> textDetect(String text) {
         validate(text);
-        textDetectionService.process(text);
+        TextDetectionDTO result = textDetectionService.process(text);
 
         // todo 返回有意义的结果
-        return InvokeResultUtils.buildSuccessInvokeResult(text);
+        return InvokeResultUtils.buildSuccessInvokeResult(result);
     }
 
 

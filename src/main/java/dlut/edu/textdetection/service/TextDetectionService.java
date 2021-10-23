@@ -1,5 +1,7 @@
 package dlut.edu.textdetection.service;
 
+import dlut.edu.textdetection.model.response.TextDetectionDTO;
+
 /**
  * Created by IntelliJ IDEA.
  * @Author : hongwei.zhw
@@ -10,5 +12,5 @@ public interface TextDetectionService {
      * 文本合规性检测
      * @param text
      */
-    void process(String text);
+    TextDetectionDTO process(String text);
 }
