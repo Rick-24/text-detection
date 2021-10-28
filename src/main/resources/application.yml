@@ -3,3 +3,7 @@ spring:
     view:
       prefix: /
       suffix: .html
+logging:
+  level:
+    dlut.edu.textdetection: info
+  config: logback.xml

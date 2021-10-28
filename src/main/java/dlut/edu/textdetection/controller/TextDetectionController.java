@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import sun.rmi.runtime.Log;
 
 @RestController
-@Slf4j
+@Slf4j(topic = "DEFAULT_LOG")
 @RequestMapping("text/detection")
 public class TextDetectionController {
 
@@ -27,6 +28,7 @@ public class TextDetectionController {
         validate(text);
         try {
             DetectionResultDTO result = textDetectionService.process(text);
+            LogUtils.info(log,"result:",new Object[]{text});
             // todo 返回有意义的结果
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         }catch(Exception e){

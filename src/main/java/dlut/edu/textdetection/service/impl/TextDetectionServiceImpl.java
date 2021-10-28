@@ -2,22 +2,13 @@ package dlut.edu.textdetection.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import dlut.edu.textdetection.model.model.DetectionModel;
-import dlut.edu.textdetection.model.model.RuleModel;
 import dlut.edu.textdetection.model.model.convert.DetectionResultConvert;
 import dlut.edu.textdetection.model.model.intergration.DetectionResultDO;
 import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
-import dlut.edu.textdetection.model.response.TextDetectionDTO;
 import dlut.edu.textdetection.service.TextDetectionService;
-import org.python.core.PyFunction;
-import org.python.core.PyInteger;
-import org.python.core.PyObject;
-import org.python.core.PyString;
-import org.python.util.PythonInterpreter;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

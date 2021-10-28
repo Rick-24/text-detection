@@ -1,7 +1,6 @@
 package dlut.edu.textdetection.service;
 
 import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
-import dlut.edu.textdetection.model.response.TextDetectionDTO;
 
 /**
  * Created by IntelliJ IDEA.
