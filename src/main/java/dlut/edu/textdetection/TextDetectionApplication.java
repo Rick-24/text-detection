@@ -10,4 +10,4 @@ public class TextDetectionApplication {
         SpringApplication.run(TextDetectionApplication.class, args);
     }
 
-}
+}                      

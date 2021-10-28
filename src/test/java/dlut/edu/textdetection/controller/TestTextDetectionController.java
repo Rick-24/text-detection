@@ -1,5 +1,7 @@
 package dlut.edu.textdetection.controller;
 
+import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
+import dlut.edu.textdetection.model.result.InvokeResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +19,9 @@ public class TestTextDetectionController {
 
     @Test
     public void testTextDetect(){
-        textDetectionController.textDetect("Hello Everyone");
+        InvokeResult<DetectionResultDTO> hello_everyone = textDetectionController.textDetect("Hello Everyone");
+        DetectionResultDTO value = hello_everyone.getValue();
+        System.out.println(value);
     }
 
 

@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <title>text detection</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
+<!--          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.8/mammoth.browser.min.js"></script>
 </head>
 
 <body>
 <div class="container-fluid" >
     <div class="row" style="margin-top: 25px" id="fileUpload">
+
         <div class="col-md-7" style="background:#f5f5f5; height: 600px" >
-            <input type="file" id="fileInput" @change="upload" ref="componentLeft">
-            <textarea v-model="contents" style="scroll-behavior: auto; height: 525px" class="form-control col-md-12"></textarea>
+            <input type="file" id="fileInput" @change="uploadString" ref="componentLeft" style="margin-top: 10px">
+            <div v-html="contents" style="margin-top: 10px; overflow: auto; height: 525px;background-color: white"
+                 class="form-control col-md-12"></div>
         </div>
+
         <div class="col-md-5" style="background:#f5f5f5; height: 600px">
-            <fieldset><legend>错误一览</legend></fieldset>
+            <button class="btn-sm col-md-12" v-on:click="fileProcess" style="float:left;margin-top: 10px">规则校验</button>
             <table class="table table-hover table-striped col-md-12">
                 <thead>
                     <tr>
@@ -26,12 +32,13 @@
                 </thead>
                 <tbody>
                     <tr v-for="(item,index) in errorInfo">
-                        <td class="col-md-11">{{item}}</td>
+                        <td class="col-md-11">{{item.text}}</td>
                         <td class="col-md-1"><button class="btn-primary btn-sm btn">N</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>
 
@@ -42,45 +49,106 @@
             errorInfo:[],
             contents:"",
         },
+        mounted:function (){
+          this.errorInfo=[{startRow:2,
+                            startColumn:2,
+                            length:3,
+                            text:"TextTextText"}];
+        },
         methods: {
-            upload: function () {
-                let file = this.$refs.componentLeft
+            //上传文件
+            upload:function () {
+                const input = this.$refs.componentLeft
                 let form = new FormData();
-                if (file.files[0] !== undefined) {
-                    form.append("tmp", file.files[0]);
-                    // let options = {
-                    //     url: "text/detection/file",
-                    //     data: form,
-                    //     method: 'post',
-                    //     headers: {
-                    //         'Content-Type': 'multipart/form-data'
-                    //     }
-                    // };
-                    // axios(options).then((results) => {
-                    //     console.log(results.data)
-                    // });
-                    axios.post("file",form, {
-                        headers: {'Content-Type': 'multipart/form-data'}
+                let files=input.files || [];
+                if (!files.length) return
+                let file=files[0];
+                let time=new Date();
+                form.append(time.toDateString(), file);
+                axios.post("file",file, {
+                    headers: {'Content-Type': 'multipart/form-data'}
                     })
-                        .then(function (response) {
+                    .then(function (response) {
                             console.log(response);
-                        }, function (err) {
+                    }, function (err) {
                             console.log(err);
-                        });
-                    this.readFile(file.files[0])
-                }
+                    });
+                this.showContents(file);
             },
-            readFile:function (selectedFile){
+
+            //上传string
+            uploadString:function (){
                 const that=this;
-                const reader=new FileReader();
-                reader.readAsText(selectedFile);
-                reader.onload=function (){
-                    that.contents=this.result;
-                }
+                const input = this.$refs.componentLeft
+                let files=input.files || [];
+                if (!files.length) return
+                let file=files[0];
+
+                this.showContents(file);
+
+                //str string类型
+                const str= this.StringProcess();
+                console.log(str)
+                //修改URL
+                axios.get("text",{
+                    params: {
+                        text: str
+                    }
+                })
+                    .then(function (response) {
+                        that.errorInfo=response.data;
+                        console.log(response);
+                    }, function (err) {
+                        console.log(err);
+                    });
+
             },
+            //去掉html标签
+            StringProcess:function(){
+                let str=this.contents;
+                //\<p|\\p|li|\\li|ol|\\ol\>
+                let strList=str.split(/<\/?.+?>/gi);
+                return strList.join('');
+            },
+
+            //读取文件内容,转化为html格式,在网页中显示
+            showContents:function (selectedFile){
+                const that=this;
+
+                // const reader=new FileReader();
+                // reader.readAsText(selectedFile,"UTF-8");
+                // reader.onload=function (){
+                //     that.contents=this.result;
+                // }
+
+                let reader = new FileReader();
+                reader.onloadend = function(event) {
+                    let arrayBuffer = this.result;
+                    mammoth.convertToHtml({arrayBuffer: arrayBuffer}).then(function (resultObject) {
+                        that.contents=resultObject.value;
+                    });
+                };
+                reader.readAsArrayBuffer(selectedFile);
+
+            },
+
+            //处理文件内容，标注出违背规则的地方
             fileProcess:function (){
+                let strList=this.contents.split(/\<p\>/);
+                console.log(strList);
+                for(let i=0;i<this.errorInfo.length;i++){
+                    let info=this.errorInfo[i];
+                    let rowProcessor=strList[info.startRow-1];
+                    let colProcessor=rowProcessor.split('');
+
+
+                    colProcessor.splice(info.startColumn-1,0,"<strong>");
+                    strList.splice(info.startRow-1,1,...colProcessor);
+                    console.log(strList);
+                }
 
             }
+
         }
     })
 

@@ -24,12 +24,11 @@ public class TextDetectionController {
     TextDetectionService textDetectionService;
 
     @RequestMapping("text")
-    public InvokeResult<DetectionResultDTO> textDetect(String text) {
+    public InvokeResult<DetectionResultDTO> textDetect(@RequestParam("text") String text) {
         validate(text);
         try {
             DetectionResultDTO result = textDetectionService.process(text);
-            LogUtils.info(log,"result:",new Object[]{text});
-            // todo 返回有意义的结果
+            // LogUtils.info(log,"result:",new Object[]{text});
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         }catch(Exception e){
             return InvokeResultUtils.buildFailedInvokeResult(GlobalErrorCode.SYSTEM_ERROR);
