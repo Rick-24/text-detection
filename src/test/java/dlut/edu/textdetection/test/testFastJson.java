@@ -1,44 +1,22 @@
-package dlut.edu.textdetection.service.impl;
+package dlut.edu.textdetection.test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import dlut.edu.textdetection.model.model.DetectionModel;
-import dlut.edu.textdetection.model.model.RuleModel;
-import dlut.edu.textdetection.model.model.convert.DetectionResultConvert;
 import dlut.edu.textdetection.model.model.intergration.DetectionResultDO;
-import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
-import dlut.edu.textdetection.model.response.TextDetectionDTO;
-import dlut.edu.textdetection.service.TextDetectionService;
-import org.python.core.PyFunction;
-import org.python.core.PyInteger;
-import org.python.core.PyObject;
-import org.python.core.PyString;
-import org.python.util.PythonInterpreter;
-import org.springframework.stereotype.Service;
+import org.junit.jupiter.api.Test;
 
-import java.net.URL;
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
  *
  * @Author : hongwei.zhw
- * @create 2021/10/19 21:06
+ * @create 2021/10/28 13:29
  */
-@Service
-public class TextDetectionServiceImpl implements TextDetectionService {
-    @Override
-    public DetectionResultDTO process(String text) {
-        //todo
-        // PythonInterpreter interpreter = new PythonInterpreter();
-        //
-        // String fileName = Optional.ofNullable(this.getClass().getClassLoader().getResource("python/test.py"))
-        //         .map(URL::getPath).get();
-        //
-        // interpreter.execfile(fileName);
-        //
-        // PyFunction pyFunction = interpreter.get("process", PyFunction.class);
-        // PyObject pyobj = pyFunction.__call__(new PyString(text));
+public class testFastJson {
+    @Test
+    public void testFastJsonParse(){
         String json = "[{'warehouse': {'sentence': '对年度实现规模以上工业总产值在全区排前五名的街道，分别奖励50万元、40万元、30万元、20万元、10万元',\n" +
                 "   'keywords': ['工业', '总产值', '规模', '实现', '全区', '街道', '年度', '奖励'],\n" +
                 "   'zhang': '第五章',\n" +
@@ -158,7 +136,7 @@ public class TextDetectionServiceImpl implements TextDetectionService {
                 "  'matching_degree': 0}]";
 
         List<DetectionResultDO> detectionResultDOS = JSON.parseObject(json, new TypeReference<List<DetectionResultDO>>() {});
-        return DetectionResultConvert.convert2DetectionResultDTO(detectionResultDOS);
-    }
 
+        System.out.println(detectionResultDOS);
+    }
 }

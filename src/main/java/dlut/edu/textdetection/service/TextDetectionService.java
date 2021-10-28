@@ -1,5 +1,6 @@
 package dlut.edu.textdetection.service;
 
+import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
 import dlut.edu.textdetection.model.response.TextDetectionDTO;
 
 /**
@@ -12,5 +13,5 @@ public interface TextDetectionService {
      * 文本合规性检测
      * @param text
      */
-    TextDetectionDTO process(String text);
+    DetectionResultDTO process(String text);
 }
