@@ -5,15 +5,24 @@ import dlut.edu.textdetection.model.response.TextDetectionDTO;
 import dlut.edu.textdetection.model.result.InvokeResult;
 import dlut.edu.textdetection.service.TextDetectionService;
 import dlut.edu.textdetection.utils.InvokeResultUtils;
+import dlut.edu.textdetection.utils.LogUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.Arrays;
+import java.util.Map;
 
 @RestController
+@Slf4j
 @RequestMapping("text/detection")
 public class TextDetectionController {
 
@@ -35,26 +44,34 @@ public class TextDetectionController {
 
     @RequestMapping("file")
     public String fileDetect(@RequestParam("file") MultipartFile file) {
-        if (!file.isEmpty()) {
-            try {
-                // 文件存放服务端的位置
-                String rootPath = "d:/tmp";
-                File dir = new File(rootPath + File.separator + "tmpFiles");
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                // 写文件到服务器
-                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-                file.transferTo(serverFile);
-                return "You successfully uploaded file=" + file.getOriginalFilename();
-            } catch (Exception e) {
-                return "You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage();
-            }
-        } else {
-            return "You failed to upload " + file.getOriginalFilename() + " because the file was empty.";
-        }
+
+        LogUtils.info(log,"request is :{}", new Object[]{file});
+
+        return "access";
+        // if (!file.isEmpty()) {
+        //     try {
+        //         // 文件存放服务端的位置
+        //         String rootPath = "d:/tmp";
+        //         File dir = new File(rootPath + File.separator + "tmpFiles");
+        //         if (!dir.exists()) {
+        //             dir.mkdirs();
+        //         }
+        //         // 写文件到服务器
+        //         File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+        //         file.transferTo(serverFile);
+        //         return "You successfully uploaded file=" + file.getOriginalFilename();
+        //     } catch (Exception e) {
+        //         return "You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage();
+        //     }
+        // } else {
+        //     return "You failed to upload " + file.getOriginalFilename() + " because the file was empty.";
+        // }
     }
 
+    @RequestMapping("homePage")
+    public ModelAndView textDetection(){
+        return new ModelAndView("homePage");
+    }
     /**
      * 请求入参前置校验
      *
