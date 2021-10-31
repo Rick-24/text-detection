@@ -5,18 +5,17 @@ import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
 import dlut.edu.textdetection.model.result.InvokeResult;
 import dlut.edu.textdetection.service.TextDetectionService;
 import dlut.edu.textdetection.utils.InvokeResultUtils;
-import dlut.edu.textdetection.utils.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import sun.rmi.runtime.Log;
 
 @RestController
-@Slf4j(topic = "DEFAULT_LOG")
+@Slf4j
 @RequestMapping("text/detection")
 public class TextDetectionController {
 
@@ -24,7 +23,7 @@ public class TextDetectionController {
     TextDetectionService textDetectionService;
 
     @RequestMapping("text")
-    public InvokeResult<DetectionResultDTO> textDetect(@RequestParam("text") String text) {
+    public InvokeResult<DetectionResultDTO> textDetect(@RequestBody String text) {
         validate(text);
         try {
             DetectionResultDTO result = textDetectionService.process(text);
@@ -37,11 +36,15 @@ public class TextDetectionController {
 
 
     @RequestMapping("file")
-    public String fileDetect(@RequestParam("file") MultipartFile file) {
+    public InvokeResult<DetectionResultDTO> fileDetect(@RequestBody MultipartFile file) {
 
-        LogUtils.info(log,"request is :{}", new Object[]{file});
-
-        return "access";
+        try {
+            DetectionResultDTO result = textDetectionService.process("mock");
+            // LogUtils.info(log,"result:",new Object[]{text});
+            return InvokeResultUtils.buildSuccessInvokeResult(result);
+        }catch(Exception e){
+            return InvokeResultUtils.buildFailedInvokeResult(GlobalErrorCode.SYSTEM_ERROR);
+        }
         // if (!file.isEmpty()) {
         //     try {
         //         // 文件存放服务端的位置
@@ -62,9 +65,9 @@ public class TextDetectionController {
         // }
     }
 
-    @RequestMapping("homePage")
+    @RequestMapping("home")
     public ModelAndView textDetection(){
-        return new ModelAndView("homePage");
+        return new ModelAndView("homepage");
     }
     /**
      * 请求入参前置校验
