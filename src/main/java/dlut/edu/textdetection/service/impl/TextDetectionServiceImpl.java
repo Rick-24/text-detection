@@ -2,10 +2,13 @@ package dlut.edu.textdetection.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import dlut.edu.textdetection.integration.TextDetectionIntegration;
+import dlut.edu.textdetection.integration.request.TextDetectionRequest;
 import dlut.edu.textdetection.model.model.convert.DetectionResultConvert;
 import dlut.edu.textdetection.model.model.intergration.DetectionResultDO;
 import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
 import dlut.edu.textdetection.service.TextDetectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,10 @@ import java.util.List;
  */
 @Service
 public class TextDetectionServiceImpl implements TextDetectionService {
+
+    @Autowired
+    private TextDetectionIntegration textDetectionIntegration;
+
     @Override
     public DetectionResultDTO process(String text) {
         //todo
@@ -40,8 +47,17 @@ public class TextDetectionServiceImpl implements TextDetectionService {
                 "  'match_count': 5,\n" +
                 "  'matching_degree': 2}]";
 
-        List<DetectionResultDO> detectionResultDOS = JSON.parseObject(json, new TypeReference<List<DetectionResultDO>>() {});
-        return DetectionResultConvert.convert2DetectionResultDTO(detectionResultDOS);
+        List<DetectionResultDO> detectionResult = JSON.parseObject(json, new TypeReference<List<DetectionResultDO>>() {});
+        return DetectionResultConvert.convert2DetectionResultDTO(detectionResult);
     }
 
+    @Override
+    public DetectionResultDTO processLocalFile(String filePath) {
+        TextDetectionRequest request = new TextDetectionRequest();
+        request.setFilePath(filePath);
+        String result = textDetectionIntegration.textDetectionInvoke(request);
+        List<DetectionResultDO> detectionResult = JSON.parseObject(result, new TypeReference<List<DetectionResultDO>>() {});
+        return DetectionResultConvert.convert2DetectionResultDTO(detectionResult);
+
+    }
 }

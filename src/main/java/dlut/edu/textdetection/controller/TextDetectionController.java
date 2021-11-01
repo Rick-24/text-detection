@@ -50,40 +50,22 @@ public class TextDetectionController {
             LocalDate date = LocalDate.now();
             String dateFormat = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
             // 文件存储路径
-            String filePath = rootPath +File.separator+"tmp"+File.separator+dateFormat;
-            File dir = new File(filePath);
+            String fileDir = rootPath +File.separator+"tmp"+File.separator+dateFormat;
+            File dir = new File(fileDir);
 
             if(!dir.exists()){
                 dir.mkdirs();
             }
-            File savedFile = new File(filePath + File.separator + file.getOriginalFilename());
+            String filePath = fileDir + File.separator + file.getOriginalFilename();
+            File savedFile = new File(filePath);
             file.transferTo(savedFile);
+            LogUtils.info(log,"文件写入成功，路径为：{0}",new Object[]{filePath});
 
-            DetectionResultDTO result = textDetectionService.process("mock");
+            DetectionResultDTO result = textDetectionService.processLocalFile(filePath);
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         }catch(Exception e){
             return InvokeResultUtils.buildFailedInvokeResult(e);
         }
-
-
-        // if (!file.isEmpty()) {
-        //     try {
-        //         // 文件存放服务端的位置
-        //         String rootPath = "d:/tmp";
-        //         File dir = new File(rootPath + File.separator + "tmpFiles");
-        //         if (!dir.exists()) {
-        //             dir.mkdirs();
-        //         }
-        //         // 写文件到服务器
-        //         File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-        //         file.transferTo(serverFile);
-        //         return "You successfully uploaded file=" + file.getOriginalFilename();
-        //     } catch (Exception e) {
-        //         return "You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage();
-        //     }
-        // } else {
-        //     return "You failed to upload " + file.getOriginalFilename() + " because the file was empty.";
-        // }
     }
 
     @RequestMapping("home")

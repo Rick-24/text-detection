@@ -13,4 +13,9 @@ public interface TextDetectionService {
      * @param text
      */
     DetectionResultDTO process(String text);
+
+    /**
+     * 本地文本合规性检测
+     */
+    DetectionResultDTO processLocalFile(String filePath);
 }
