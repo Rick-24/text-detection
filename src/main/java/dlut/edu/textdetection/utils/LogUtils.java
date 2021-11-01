@@ -15,4 +15,8 @@ public class LogUtils {
         String message = MessageFormat.format(pattern, params);
         logger.info(message);
     }
+
+    public static void error(Logger logger,Throwable e){
+        logger.error("SystemError",e);
+    }
 }

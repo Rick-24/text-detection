@@ -20,10 +20,11 @@ public class InvokeResult <T> implements Serializable {
     public static int SUCCESS = 1;
     public static int FAIL = 0;
 
+    private T value;
+
     private String errorMessage;
     private int status;
     private String errorCode;
 
-    private T value;
 
 }

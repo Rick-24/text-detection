@@ -11,10 +11,21 @@ import lombok.Data;
  */
 @Data
 public class DetectionModel {
+    /**
+     * 展示文案（对应规则）
+     */
     private String text;
-    private int startRow;
-    private int startColumn;
-    private int endRow;
-    private int endColumn;
+    /**
+     * 输入文本（需高亮展示部分）
+     */
+    private String input;
+    /**
+     * 输入文本段号
+     */
+    private int segmentNum;
+    /**
+     * 输入文本句子号
+     */
+    private int sentenceNum;
 
 }

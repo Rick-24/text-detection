@@ -26,7 +26,9 @@ public class DetectionResultConvert {
     public static DetectionModel build(DetectionResultDO detectionResultDO) {
         DetectionModel detectionModel = new DetectionModel();
         detectionModel.setText(detectionResultDO.getWarehouse().getSentence());
-        detectionModel.setStartColumn(detectionResultDO.getUserinput().getNumber());
+        detectionModel.setInput(detectionResultDO.getUserinput().getSentence());
+        detectionModel.setSegmentNum(1);
+        detectionModel.setSentenceNum(1);
         return detectionModel;
     }
 }
