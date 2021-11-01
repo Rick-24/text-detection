@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+
 @RestController
 @Slf4j
 @RequestMapping("text/detection")
@@ -31,7 +37,7 @@ public class TextDetectionController {
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         }catch(Exception e){
             LogUtils.error(log,e);
-            return InvokeResultUtils.buildFailedInvokeResult(GlobalErrorCode.SYSTEM_ERROR);
+            return InvokeResultUtils.buildFailedInvokeResult(e);
         }
     }
 
@@ -40,12 +46,26 @@ public class TextDetectionController {
     public InvokeResult<DetectionResultDTO> fileDetect(@RequestBody MultipartFile file) {
 
         try {
+            String rootPath = this.getClass().getClassLoader().getResource("").getPath();
+            LocalDate date = LocalDate.now();
+            String dateFormat = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
+            // 文件存储路径
+            String filePath = rootPath +File.separator+"tmp"+File.separator+dateFormat;
+            File dir = new File(filePath);
+
+            if(!dir.exists()){
+                dir.mkdirs();
+            }
+            File savedFile = new File(filePath + File.separator + file.getOriginalFilename());
+            file.transferTo(savedFile);
+
             DetectionResultDTO result = textDetectionService.process("mock");
-            // LogUtils.info(log,"result:",new Object[]{text});
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         }catch(Exception e){
-            return InvokeResultUtils.buildFailedInvokeResult(GlobalErrorCode.SYSTEM_ERROR);
+            return InvokeResultUtils.buildFailedInvokeResult(e);
         }
+
+
         // if (!file.isEmpty()) {
         //     try {
         //         // 文件存放服务端的位置

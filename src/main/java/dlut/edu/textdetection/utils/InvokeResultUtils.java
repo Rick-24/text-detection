@@ -22,12 +22,15 @@ public class InvokeResultUtils {
         return invokeResult;
     }
 
-    public static InvokeResult buildFailedInvokeResult(GlobalErrorCode errorCode){
+    public static InvokeResult buildFailedInvokeResult(Throwable e){
         InvokeResult<Object> invokeResult = new InvokeResult<>();
 
         invokeResult.setStatus(FAIL);
-        invokeResult.setErrorMessage(errorCode.getErrorMessage());
-        invokeResult.setErrorCode(errorCode.getErrorCode());
+        invokeResult.setErrorMessage(e.getMessage());
+        if(e.getMessage() == null){
+            invokeResult.setErrorMessage(GlobalErrorCode.SYSTEM_ERROR.getErrorMessage());
+            invokeResult.setErrorCode(GlobalErrorCode.SYSTEM_ERROR.getErrorCode());
+        }
         return invokeResult;
     }
 }
