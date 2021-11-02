@@ -59,9 +59,9 @@ public class TextDetectionController {
             String filePath = fileDir + File.separator + file.getOriginalFilename();
             File savedFile = new File(filePath);
             file.transferTo(savedFile);
-            LogUtils.info(log,"文件写入成功，路径为：{0}",new Object[]{filePath});
+            LogUtils.info(log,"文件写入成功，路径为：{0}",new Object[]{savedFile.getPath()});
 
-            DetectionResultDTO result = textDetectionService.processLocalFile(filePath);
+            DetectionResultDTO result = textDetectionService.processLocalFile(savedFile.getPath());
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         }catch(Exception e){
             return InvokeResultUtils.buildFailedInvokeResult(e);
