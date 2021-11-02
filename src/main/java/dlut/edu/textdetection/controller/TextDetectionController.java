@@ -35,8 +35,8 @@ public class TextDetectionController {
             DetectionResultDTO result = textDetectionService.process(text);
             // LogUtils.info(log,"result:",new Object[]{text});
             return InvokeResultUtils.buildSuccessInvokeResult(result);
-        }catch(Exception e){
-            LogUtils.error(log,e);
+        } catch (Exception e) {
+            LogUtils.error(log, e);
             return InvokeResultUtils.buildFailedInvokeResult(e);
         }
     }
@@ -50,28 +50,34 @@ public class TextDetectionController {
             LocalDate date = LocalDate.now();
             String dateFormat = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
             // 文件存储路径
-            String fileDir = rootPath +File.separator+"tmp"+File.separator+dateFormat;
+            String fileDir = rootPath + File.separator + "tmp" + File.separator + dateFormat;
             File dir = new File(fileDir);
 
-            if(!dir.exists()){
+            if (!dir.exists()) {
                 dir.mkdirs();
             }
             String filePath = fileDir + File.separator + file.getOriginalFilename();
             File savedFile = new File(filePath);
             file.transferTo(savedFile);
-            LogUtils.info(log,"文件写入成功，路径为：{0}",new Object[]{savedFile.getPath()});
+            LogUtils.info(log, "文件写入成功，路径为：{0}", new Object[]{savedFile.getPath()});
 
             DetectionResultDTO result = textDetectionService.processLocalFile(savedFile.getPath());
             return InvokeResultUtils.buildSuccessInvokeResult(result);
-        }catch(Exception e){
+        } catch (Exception e) {
             return InvokeResultUtils.buildFailedInvokeResult(e);
         }
     }
 
     @RequestMapping("home")
-    public ModelAndView textDetection(){
+    public ModelAndView textDetection() {
         return new ModelAndView("homepage");
     }
+
+    @RequestMapping("home2")
+    public ModelAndView textDetectionV2() {
+        return new ModelAndView("homepageV2");
+    }
+
     /**
      * 请求入参前置校验
      *
