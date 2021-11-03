@@ -53,6 +53,7 @@ public class TextDetectionServiceImpl implements TextDetectionService {
 
     @Override
     public DetectionResultDTO processLocalFile(String filePath) {
+        filePath = filePath.replace('\\','/');
         TextDetectionRequest request = new TextDetectionRequest();
         request.setFilePath(filePath);
         String result = textDetectionIntegration.textDetectionInvoke(request);

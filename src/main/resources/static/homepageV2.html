@@ -100,12 +100,12 @@
                     headers: {'Content-Type': 'multipart/form-data'}
                     })
                     .then(function (response) {
-                            that.errorInfo=response.data.values.detectionModels;
+                            that.errorInfo=response.data.value.detectionModels;
                             console.log(response);
+                        that.contentsRead(file);
                     }, function (err) {
                             console.log(err);
                     });
-                this.contentsRead(file);
             },
 
             //post string
@@ -149,6 +149,7 @@
                     let arrayBuffer = this.result;
                     mammoth.convertToHtml({arrayBuffer: arrayBuffer}).then(function (resultObject) {
                         that.contents=resultObject.value;
+                        console.log(that.contents)
                         that.contentsProcess();
                     });
                 };
@@ -160,6 +161,7 @@
                 // /<\/?.+?>/gi
                 // /\<\/p\>/gi
                 let strList=this.contents.split(/<\/?p>/gi).filter(item => item !=='' );
+                console.log(this.errorInfo)
                 for(let i=0; i<this.errorInfo.length; i++){
                     let segmentNum=this.errorInfo[i].segmentNum;
                     let sentenceNum=this.errorInfo[i].sentenceNum;

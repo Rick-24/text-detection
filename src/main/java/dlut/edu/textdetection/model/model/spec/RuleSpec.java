@@ -29,4 +29,12 @@ public class RuleSpec {
      * 第几条
      */
     private String tiao;
+    /**
+     * 第几段
+     */
+    private int duan;
+    /**
+     * 第几句
+     */
+    private int ju;
 }

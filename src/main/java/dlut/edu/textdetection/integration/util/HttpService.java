@@ -64,7 +64,7 @@ public class HttpService {
      * @param url  发送地址
      * @param body 发送内容
      */
-    public void sendMsg(String url, String body) {
+    public String sendMsg(String url, String body) {
         RequestConfig defaultRequestConfig = RequestConfig.custom()
                 .setSocketTimeout(2000)
                 .setConnectTimeout(2000)
@@ -74,10 +74,6 @@ public class HttpService {
                 .setDefaultRequestConfig(defaultRequestConfig)
                 .build();
         // CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet get = new HttpGet(url);
-        get.setHeaders(HttpClientBuilder.getHeaders());
-        get.setConfig(HttpClientBuilder.getDefaultRequestConfig());
-
         HttpPost post = new HttpPost(url);
         post.setHeaders(HttpClientBuilder.getHeaders());
         post.setConfig(HttpClientBuilder.getDefaultRequestConfig());
@@ -87,10 +83,12 @@ public class HttpService {
         try {
             response = httpClient.execute(post);
             response.close();
+            return response.toString();
         } catch (IOException e) {
             e.printStackTrace();
             logger.error("发送数据失败, {}", e.getMessage());
         }
+        return null;
     }
 
 }

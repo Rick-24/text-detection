@@ -77,7 +77,10 @@ public class TextDetectionController {
     public ModelAndView textDetectionV2() {
         return new ModelAndView("homepageV2");
     }
-
+    @RequestMapping("home3")
+    public ModelAndView textDetectionV3() {
+        return new ModelAndView("homepageV3");
+    }
     /**
      * 请求入参前置校验
      *

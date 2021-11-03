@@ -27,8 +27,8 @@ public class DetectionResultConvert {
         DetectionModel detectionModel = new DetectionModel();
         detectionModel.setText(detectionResultDO.getWarehouse().getSentence());
         detectionModel.setInput(detectionResultDO.getUserinput().getSentence());
-        detectionModel.setSegmentNum(1);
-        detectionModel.setSentenceNum(1);
+        detectionModel.setSegmentNum(detectionResultDO.getUserinput().getDuan());
+        detectionModel.setSentenceNum(detectionResultDO.getUserinput().getJu());
         return detectionModel;
     }
 }
