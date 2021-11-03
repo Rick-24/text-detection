@@ -16,7 +16,7 @@
     <div class="row" style="margin-top: 5vh;height: 90vh" id="fileUpload">
 
         <div class="col-md-7" style="background:#f5f5f5; height: 90vh" >
-            <input type="file" id="fileInput" @change="upload(true)" ref="componentLeft" style="margin-top: 2vh">
+            <input type="file" id="fileInput" @change="upload(false)" ref="componentLeft" style="margin-top: 2vh">
             <div v-html="contents" style="margin-top: 10px; overflow: auto; height: 80vh;background-color: white" ref="contentsArea"
                  class="form-control col-md-12"></div>
         </div>
