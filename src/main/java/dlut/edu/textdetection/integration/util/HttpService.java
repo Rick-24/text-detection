@@ -1,19 +1,17 @@
 package dlut.edu.textdetection.integration.util;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 
 /**
@@ -25,70 +23,64 @@ import java.io.IOException;
 @Service("localHttpService")
 public class HttpService {
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpService.class);
+    @Autowired
+    private RestTemplate restTemplate;
 
-    /**
-     * 发送数据到指定的地址
-     *
-     * @param url  发送地址
-     * @param body 发送内容
-     */
-    public void sendMsg(String url, Object body) {
-        RequestConfig defaultRequestConfig = RequestConfig.custom()
-                .setSocketTimeout(2000)
-                .setConnectTimeout(2000)
-                .setConnectionRequestTimeout(5000)
-                .build();
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setDefaultRequestConfig(defaultRequestConfig)
-                .build();
-        //        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost post = new HttpPost(url);
-        post.setHeaders(HttpClientBuilder.getHeaders());
-        post.setConfig(HttpClientBuilder.getDefaultRequestConfig());
-        HttpEntity entry = new StringEntity(JSON.toJSONString(body), "UTF-8");
-        post.setEntity(entry);
-        CloseableHttpResponse response;
-        try {
-            response = httpClient.execute(post);
-            response.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.error("发送数据失败, {}", e.getMessage());
-        }
+    public String GET(String uri,Supplier<Map<String,String>> paramsSupplier){
+        return GET("http",uri,paramsSupplier);
     }
 
+    public String GET(String protocol, String uri, Supplier<Map<String, String>> paramsSupplier) {
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                generateRequestParameters(protocol, uri, paramsSupplier.get()), String.class);
+        return responseEntity.getBody();
+    }
+
+
     /**
-     * 发送数据到指定的地址
-     *
-     * @param url  发送地址
-     * @param body 发送内容
+     * post请求
+     * @return
      */
-    public String sendMsg(String url, String body) {
-        RequestConfig defaultRequestConfig = RequestConfig.custom()
-                .setSocketTimeout(2000)
-                .setConnectTimeout(2000)
-                .setConnectionRequestTimeout(5000)
-                .build();
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setDefaultRequestConfig(defaultRequestConfig)
-                .build();
-        // CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost post = new HttpPost(url);
-        post.setHeaders(HttpClientBuilder.getHeaders());
-        post.setConfig(HttpClientBuilder.getDefaultRequestConfig());
-        HttpEntity entry = new StringEntity(body, "UTF-8");
-        post.setEntity(entry);
-        CloseableHttpResponse response;
-        try {
-            response = httpClient.execute(post);
-            response.close();
-            return response.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.error("发送数据失败, {}", e.getMessage());
+    public String POST(String protocol,String uri,Supplier<Map<String,String>> body) {
+        ResponseEntity<String> apiResponse = restTemplate.postForEntity(
+                        protocol+"://"+uri, generatePostJson(body.get()), String.class);
+        return apiResponse.getBody();
+    }
+
+    public String POST(String uri,Supplier<Map<String,String>> body){
+        return POST("http",uri,body);
+    }
+
+    public String POST4Object(String uri,Object postObject){
+        return POST4Object("http",uri,postObject);
+    }
+    public String POST4Object(String protocol,String uri,Object postObject){
+        return restTemplate.postForObject(protocol+"://"+uri,postObject,String.class);
+    }
+
+    public String generateRequestParameters(String protocol, String uri, Map<String, String> params) {
+        StringBuilder sb = new StringBuilder(protocol).append("://").append(uri);
+        if (!CollectionUtils.isEmpty(params)) {
+            sb.append("?");
+            for (Map.Entry<String,String> map : params.entrySet()) {
+                sb.append(map.getKey())
+                        .append("=")
+                        .append(map.getValue())
+                        .append("&");
+            }
+            uri = sb.substring(0, sb.length() - 1);
+            return uri;
         }
-        return null;
+        return sb.toString();
+    }
+
+    public HttpEntity<Map<String, String>> generatePostJson(Map<String, String> jsonMap) {
+        //如果需要其它的请求头信息、都可以在这里追加
+        HttpHeaders httpHeaders = new HttpHeaders();
+        MediaType type = MediaType.parseMediaType("application/json;charset=UTF-8");
+
+        httpHeaders.setContentType(type);
+        return new HttpEntity<>(jsonMap, httpHeaders);
     }
 
 }

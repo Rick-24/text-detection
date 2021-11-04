@@ -191,7 +191,7 @@
                     headers: {'Content-Type': 'multipart/form-data'}
                     })
                     .then(function (response) {
-                        that.errorInfo=response.data.values.detectionModels;
+                        that.errorInfo=response.data.value.detectionModels;
                         that.contentsRead(file);
                         console.log(response);
                     }, function (err) {
@@ -247,6 +247,7 @@
             },
 
             go:function (segmentNum){
+                this.$refs.contentsArea.scrollTop=0;
                 const height=this.$refs.contentsArea.offsetHeight;
                 console.log(height);
                 this.$refs.contentsArea.scrollTop=segmentNum/this.lengthOfContents*height;

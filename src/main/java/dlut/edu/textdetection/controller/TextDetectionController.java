@@ -64,6 +64,7 @@ public class TextDetectionController {
             DetectionResultDTO result = textDetectionService.processLocalFile(savedFile.getPath());
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         } catch (Exception e) {
+            LogUtils.error(log,e);
             return InvokeResultUtils.buildFailedInvokeResult(e);
         }
     }
