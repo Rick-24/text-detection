@@ -1,6 +1,6 @@
 package dlut.edu.textdetection.controller;
 
-import dlut.edu.textdetection.model.enums.GlobalErrorCode;
+import dlut.edu.textdetection.model.model.DetectionModel;
 import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
 import dlut.edu.textdetection.model.result.InvokeResult;
 import dlut.edu.textdetection.service.TextDetectionService;
@@ -8,6 +8,7 @@ import dlut.edu.textdetection.utils.InvokeResultUtils;
 import dlut.edu.textdetection.utils.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -62,26 +64,18 @@ public class TextDetectionController {
             LogUtils.info(log, "文件写入成功，路径为：{0}", new Object[]{savedFile.getPath()});
 
             DetectionResultDTO result = textDetectionService.processLocalFile(savedFile.getPath());
+            List<DetectionModel> detectionModels = result.getDetectionModels().stream()
+                    .sorted(Comparator.comparing(DetectionModel::getSegmentNum)
+                            .thenComparing(DetectionModel::getSentenceNum))
+                    .collect(Collectors.toList());
+            result.setDetectionModels(detectionModels);
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         } catch (Exception e) {
-            LogUtils.error(log,e);
+            LogUtils.error(log, e);
             return InvokeResultUtils.buildFailedInvokeResult(e);
         }
     }
 
-    @RequestMapping("home")
-    public ModelAndView textDetection() {
-        return new ModelAndView("homepage");
-    }
-
-    @RequestMapping("home2")
-    public ModelAndView textDetectionV2() {
-        return new ModelAndView("homepageV2");
-    }
-    @RequestMapping("home3")
-    public ModelAndView textDetectionV3() {
-        return new ModelAndView("homepageV3");
-    }
     /**
      * 请求入参前置校验
      *

@@ -10,4 +10,5 @@ http_pool:
   connection_request_timeout: 1000
   socket_timeout: 65000
   validate_after_inactivity: 2000
-
+server:
+  port: 8001
