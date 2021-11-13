@@ -19,4 +19,8 @@ public class LogUtils {
     public static void error(Logger logger,Throwable e){
         logger.error("SystemError",e);
     }
+
+    public static void error(Logger logger,Throwable e,String message){
+        logger.error(message,e);
+    }
 }
