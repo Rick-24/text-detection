@@ -1,4 +1,4 @@
-package dlut.edu.textdetection.config;
+package dlut.edu.textdetection.init;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

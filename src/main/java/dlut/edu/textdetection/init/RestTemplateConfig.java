@@ -1,4 +1,4 @@
-package dlut.edu.textdetection.config;
+package dlut.edu.textdetection.init;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
