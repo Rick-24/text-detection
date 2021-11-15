@@ -1,8 +1,11 @@
 package dlut.edu.textdetection.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import dlut.edu.textdetection.dao.SysRuleDao;
 import dlut.edu.textdetection.mbg.mapper.SysRegionMapper;
 import dlut.edu.textdetection.mbg.model.SysRegion;
+import dlut.edu.textdetection.mbg.model.SysRule;
+import dlut.edu.textdetection.model.enums.AreaEnum;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.jupiter.api.Test;
@@ -15,6 +18,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import static dlut.edu.textdetection.mbg.mapper.SysRegionDynamicSqlSupport.id;
 import static dlut.edu.textdetection.mbg.mapper.SysRegionDynamicSqlSupport.sysRegion;
@@ -34,6 +38,9 @@ public class ConnectionTest {
     DataSource dataSource;
     @Autowired
     SqlSessionFactory sqlSessionFactory;
+
+    @Autowired
+    SysRuleDao sysRuleDao;
 
 
     @Test
@@ -66,5 +73,16 @@ public class ConnectionTest {
 
             sysRegions.stream().limit(3).forEach(System.out::println);
         }
+    }
+    @Test
+    public void testGetSysRuleByAreaCode(){
+        List<SysRule> sysRuleByAreaCode = sysRuleDao.getSysRuleByAreaCode(210000L);
+        sysRuleByAreaCode.stream().forEach(System.out::println);
+    }
+
+    @Test
+    public void testGetSysRuleAndAboveByAreaCode(){
+        Map<AreaEnum, List<SysRule>> sysRuleAndAboveByAreaCode = sysRuleDao.getSysRuleAndAboveByAreaCode(210211L);
+        System.out.println(sysRuleAndAboveByAreaCode);
     }
 }

@@ -31,4 +31,7 @@ public class ApplicationValues {
     @Value("${http_pool.validate_after_inactivity}")
     private int inactivity;
 
+    @Value("${rule.root_path}")
+    private String rootPath;
+
 }

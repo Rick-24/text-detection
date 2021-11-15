@@ -19,12 +19,12 @@ public interface SysRuleDao {
      * @param areaCode 地区码  例： 211000  辽宁省辽阳市
      * @return
      */
-    List<SysRule> getSysRuleByAreaCode(String areaCode);
+    List<SysRule> getSysRuleByAreaCode(Long areaCode);
 
     /**
      * 根据地区码获取本地区及上级的全部政策文件
      * @param areaCode 地区码  例： 211000  辽宁省辽阳市
      * @return
      */
-    Map<AreaEnum,List<SysRule>> getSysRuleAndAboveByAreaCode(String areaCode);
+    Map<AreaEnum,List<SysRule>> getSysRuleAndAboveByAreaCode(Long areaCode);
 }
