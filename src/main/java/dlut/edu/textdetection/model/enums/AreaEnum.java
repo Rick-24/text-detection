@@ -18,5 +18,15 @@ public enum AreaEnum {
     /**
      * 区
      */
-    DISTRICT
+    DISTRICT;
+
+    public static AreaEnum parseAreaCode(Long code) {
+        if (code % 10000 == 0) {
+            return AreaEnum.PROVINCE;
+        } else if (code % 100 == 0) {
+            return AreaEnum.CITY;
+        } else {
+            return AreaEnum.DISTRICT;
+        }
+    }
 }

@@ -21,6 +21,7 @@ import org.mybatis.dynamic.sql.BasicColumn;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
 import org.mybatis.dynamic.sql.delete.render.DeleteStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
+import org.mybatis.dynamic.sql.insert.render.MultiRowInsertStatementProvider;
 import org.mybatis.dynamic.sql.select.CountDSLCompleter;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
@@ -99,6 +100,9 @@ public interface SysRuleMapper {
             .map(filename).toPropertyWhenPresent("filename", record::getFilename)
         );
     }
+
+    @InsertProvider(type=SqlProviderAdapter.class, method="insertMultiple")
+    int insertMultiple(MultiRowInsertStatementProvider<SysRule> insertStatement);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default Optional<SysRule> selectOne(SelectDSLCompleter completer) {

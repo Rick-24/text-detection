@@ -1,8 +1,11 @@
 package dlut.edu.textdetection.controller;
 
+import dlut.edu.textdetection.model.enums.AreaEnum;
 import dlut.edu.textdetection.model.model.DetectionModel;
 import dlut.edu.textdetection.model.model.result.DetectionResultDTO;
 import dlut.edu.textdetection.model.result.InvokeResult;
+import dlut.edu.textdetection.service.FileLocalStorageService;
+import dlut.edu.textdetection.service.RuleSearchService;
 import dlut.edu.textdetection.service.TextDetectionService;
 import dlut.edu.textdetection.utils.InvokeResultUtils;
 import dlut.edu.textdetection.utils.LogUtils;
@@ -21,6 +24,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,7 +33,13 @@ import java.util.stream.Collectors;
 public class TextDetectionController {
 
     @Autowired
-    TextDetectionService textDetectionService;
+    private TextDetectionService textDetectionService;
+
+    @Autowired
+    private FileLocalStorageService fileLocalStorageService;
+
+    @Autowired
+    private RuleSearchService ruleSearchService;
 
     @RequestMapping("text")
     public InvokeResult<DetectionResultDTO> textDetect(@RequestBody String text) {
@@ -49,8 +59,8 @@ public class TextDetectionController {
     public InvokeResult<DetectionResultDTO> fileDetect(@RequestBody MultipartFile file) {
 
         try {
-            File savedFile = fileSavedLocal(file);
-            DetectionResultDTO result = textDetectionService.processLocalFile(savedFile.getPath());
+            String savedPath = fileLocalStorageService.fileStorageToBeDetected(file);
+            DetectionResultDTO result = textDetectionService.processLocalFile(savedPath);
             List<DetectionModel> detectionModels = result.getDetectionModels().stream()
                     .sorted(Comparator.comparing(DetectionModel::getSegmentNum)
                             .thenComparing(DetectionModel::getSentenceNum))
@@ -64,11 +74,12 @@ public class TextDetectionController {
     }
 
     @RequestMapping("fileV2")
-    public InvokeResult<DetectionResultDTO> fileDetectV2(@RequestBody MultipartFile file,@RequestBody String areaCode) {
+    public InvokeResult<DetectionResultDTO> fileDetectV2(@RequestBody MultipartFile file, @RequestBody Long areaCode) {
 
         try {
-            File savedFile = fileSavedLocal(file);
-            DetectionResultDTO result = textDetectionService.processLocalFile(savedFile.getPath());
+            Map<AreaEnum, List<String>> sysRuleMap = ruleSearchService.getSysRuleAndAboveFilePath(areaCode);
+            String savedPath = fileLocalStorageService.fileStorageToBeDetected(file);
+            DetectionResultDTO result = textDetectionService.processLocalFile(savedPath,sysRuleMap);
             List<DetectionModel> detectionModels = result.getDetectionModels().stream()
                     .sorted(Comparator.comparing(DetectionModel::getSegmentNum)
                             .thenComparing(DetectionModel::getSentenceNum))
@@ -81,28 +92,6 @@ public class TextDetectionController {
         }
     }
 
-    public File fileSavedLocal(MultipartFile file) {
-        try{
-            String rootPath = this.getClass().getClassLoader().getResource("").getPath();
-            LocalDate date = LocalDate.now();
-            String dateFormat = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
-            // 文件存储路径
-            String fileDir = rootPath + File.separator + "tmp" + File.separator + dateFormat;
-            File dir = new File(fileDir);
-
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            String filePath = fileDir + File.separator + file.getOriginalFilename();
-            File savedFile = new File(filePath);
-            file.transferTo(savedFile);
-            LogUtils.info(log, "文件写入成功，路径为：{0}", new Object[]{savedFile.getPath()});
-            return savedFile;
-        } catch (IOException e) {
-            LogUtils.error(log, e,"文件写入失败");
-        }
-        return null;
-    }
     /**
      * 请求入参前置校验
      *

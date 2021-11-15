@@ -1,13 +1,13 @@
 package dlut.edu.textdetection.dao.impl;
 
 import dlut.edu.textdetection.dao.SysRuleDao;
-import dlut.edu.textdetection.mbg.mapper.SysRuleDynamicSqlSupport;
 import dlut.edu.textdetection.mbg.mapper.SysRuleMapper;
 import dlut.edu.textdetection.mbg.model.SysRule;
 import dlut.edu.textdetection.model.enums.AreaEnum;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.dynamic.sql.SqlBuilder;
+import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
+import org.mybatis.dynamic.sql.insert.render.MultiRowInsertStatementProvider;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static dlut.edu.textdetection.mbg.mapper.SysRuleDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
-import static dlut.edu.textdetection.mbg.mapper.SysRuleDynamicSqlSupport.id;
-import static dlut.edu.textdetection.mbg.mapper.SysRuleDynamicSqlSupport.code;
-import static dlut.edu.textdetection.mbg.mapper.SysRuleDynamicSqlSupport.filename;
-import static dlut.edu.textdetection.mbg.mapper.SysRuleDynamicSqlSupport.sysRule;
 
 /**
  * Created by IntelliJ IDEA.
@@ -64,7 +61,42 @@ public class SysRuleDaoImpl implements SysRuleDao {
                             .build().render(RenderingStrategies.MYBATIS3);
 
             List<SysRule> sysRules = mapper.selectMany(provider);
-            return sysRules.stream().collect(Collectors.groupingBy(SysRule::parseAreaCode));
+            return sysRules.stream().collect(
+                    Collectors.groupingBy(sysRule ->
+                            AreaEnum.parseAreaCode(sysRule.getCode())));
+        }
+    }
+
+    @Override
+    public void insertMutipleSysRules(List<SysRule> sysRuleList) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            SysRuleMapper mapper = session.getMapper(SysRuleMapper.class);
+
+            MultiRowInsertStatementProvider<SysRule> insertProvider = insertMultiple(sysRuleList)
+                    .into(sysRule)
+                    .map(code).toProperty("filename")
+                    .map(filename).toProperty("fileName")
+                    .map(id).toProperty("id")
+                    .build().render(RenderingStrategies.MYBATIS3);
+            mapper.insertMultiple(insertProvider);
+        }
+    }
+
+    @Override
+    public void insertSysRule(String fileName, Long areaCode) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            SysRuleMapper mapper = session.getMapper(SysRuleMapper.class);
+            SysRule r = SysRule.builder()
+                    .code(areaCode)
+                    .filename(fileName)
+                    .build();
+            InsertStatementProvider<SysRule> insertProvider = insert(r)
+                    .into(sysRule)
+                    .map(code).toProperty("filename")
+                    .map(filename).toProperty("fileName")
+                    .map(id).toProperty("id")
+                    .build().render(RenderingStrategies.MYBATIS3);
+            mapper.insert(insertProvider);
         }
     }
 }
