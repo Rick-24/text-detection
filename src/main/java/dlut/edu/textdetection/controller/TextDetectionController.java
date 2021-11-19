@@ -11,10 +11,7 @@ import dlut.edu.textdetection.utils.InvokeResultUtils;
 import dlut.edu.textdetection.utils.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -61,11 +58,6 @@ public class TextDetectionController {
         try {
             String savedPath = fileLocalStorageService.fileStorageToBeDetected(file);
             DetectionResultDTO result = textDetectionService.processLocalFile(savedPath);
-            List<DetectionModel> detectionModels = result.getDetectionModels().stream()
-                    .sorted(Comparator.comparing(DetectionModel::getSegmentNum)
-                            .thenComparing(DetectionModel::getSentenceNum))
-                    .collect(Collectors.toList());
-            result.setDetectionModels(detectionModels);
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         } catch (Exception e) {
             LogUtils.error(log, e);
@@ -74,17 +66,13 @@ public class TextDetectionController {
     }
 
     @RequestMapping("fileV2")
-    public InvokeResult<DetectionResultDTO> fileDetectV2(@RequestBody MultipartFile file, @RequestBody Long areaCode) {
+    public InvokeResult<DetectionResultDTO> fileDetectV2(Long areaCode, @RequestParam(value = "matchList", required = false) List<Long> matchList, @RequestParam("file") MultipartFile file) {
 
         try {
             Map<AreaEnum, List<String>> sysRuleMap = ruleSearchService.getSysRuleAndAboveFilePath(areaCode);
             String savedPath = fileLocalStorageService.fileStorageToBeDetected(file);
-            DetectionResultDTO result = textDetectionService.processLocalFile(savedPath,sysRuleMap);
-            List<DetectionModel> detectionModels = result.getDetectionModels().stream()
-                    .sorted(Comparator.comparing(DetectionModel::getSegmentNum)
-                            .thenComparing(DetectionModel::getSentenceNum))
-                    .collect(Collectors.toList());
-            result.setDetectionModels(detectionModels);
+            DetectionResultDTO result = textDetectionService.processLocalFile(savedPath, sysRuleMap);
+            // todo 是不是需要排个序
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         } catch (Exception e) {
             LogUtils.error(log, e);

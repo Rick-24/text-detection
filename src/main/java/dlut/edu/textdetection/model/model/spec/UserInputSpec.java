@@ -18,14 +18,6 @@ public class UserInputSpec {
      */
     private String sentence;
     /**
-     * 关键词
-     */
-    private List<String> keywords;
-    /**
-     * 第几条
-     */
-    private int number;
-    /**
      * 第几段
      */
     private int duan;

@@ -28,9 +28,9 @@ public class TextDetectionIntegration {
     @Autowired
     private HttpService httpService;
 
-    public List<DetectionResultDO> textDetectionInvoke(TextDetectionRequest request) {
+    public DetectionResultDO textDetectionInvoke(TextDetectionRequest request) {
         String result = httpService.POST4Object("127.0.0.1:2452/textDetection", request);
-        return JSON.parseObject(result, new TypeReference<List<DetectionResultDO>>() {});
+        return JSON.parseObject(result, new TypeReference<DetectionResultDO>() {});
     }
 
 

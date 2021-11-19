@@ -4,7 +4,9 @@ import dlut.edu.textdetection.model.model.DetectionModel;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,9 +16,13 @@ import java.util.List;
  */
 @Data
 public class DetectionResultDTO {
-    private List<DetectionModel> detectionModels;
+    private List<DetectionModel> provinceModel;
+    private List<DetectionModel> cityModel;
+    private List<DetectionModel> districtModel;
 
     public DetectionResultDTO(){
-        detectionModels = new ArrayList<>();
+        provinceModel = new ArrayList<>();
+        cityModel = new ArrayList<>();
+        districtModel = new ArrayList<>();
     }
 }

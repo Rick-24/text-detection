@@ -29,19 +29,8 @@ public class TextDetectionServiceImpl implements TextDetectionService {
 
     @Override
     public DetectionResultDTO process(String text) {
-        String json = "[{'warehouse': {'sentence': '对年度实现规模以上工业总产值在全区排前五名的街道，分别奖励50万元、40万元、30万元、20万元、10万元',\n" +
-                "   'keywords': ['工业', '总产值', '规模', '实现', '全区', '街道', '年度', '奖励'],\n" +
-                "   'zhang': '第五章',\n" +
-                "   'tiao': '第四条'},\n" +
-                "  'userinput': {'sentence': '每年工业总产值在全区排前二十名的街道，分别奖励50万元、30万元、20万元',\n" +
-                "   'keywords': ['全区', '街道', '总产值', '工业', '奖励'],\n" +
-                "   'number': 2},\n" +
-                "  'match_count': 5,\n" +
-                "  'matching_degree': 2}]";
 
-        List<DetectionResultDO> detectionResult = JSON.parseObject(json, new TypeReference<List<DetectionResultDO>>() {
-        });
-        return DetectionResultConvert.convert2DetectionResultDTO(detectionResult);
+        return null;
     }
 
     @Override
@@ -49,7 +38,7 @@ public class TextDetectionServiceImpl implements TextDetectionService {
         TextDetectionRequest request = TextDetectionRequest.builder()
                 .filePath(filePath)
                 .build();
-        List<DetectionResultDO> detectionResult = textDetectionIntegration.textDetectionInvoke(request);
+        DetectionResultDO detectionResult = textDetectionIntegration.textDetectionInvoke(request);
         return DetectionResultConvert.convert2DetectionResultDTO(detectionResult);
 
     }
@@ -61,7 +50,7 @@ public class TextDetectionServiceImpl implements TextDetectionService {
                 .sysRuleMap(sysRuleMap)
                 .build();
 
-        List<DetectionResultDO> detectionResult = textDetectionIntegration.textDetectionInvoke(request);
+        DetectionResultDO detectionResult = textDetectionIntegration.textDetectionInvoke(request);
         return DetectionResultConvert.convert2DetectionResultDTO(detectionResult);
 
     }

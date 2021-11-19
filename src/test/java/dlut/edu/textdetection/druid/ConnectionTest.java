@@ -1,6 +1,7 @@
 package dlut.edu.textdetection.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import dlut.edu.textdetection.dao.SysRegionDao;
 import dlut.edu.textdetection.dao.SysRuleDao;
 import dlut.edu.textdetection.mbg.mapper.SysRegionMapper;
 import dlut.edu.textdetection.mbg.model.SysRegion;
@@ -42,13 +43,16 @@ public class ConnectionTest {
     @Autowired
     SysRuleDao sysRuleDao;
 
+    @Autowired
+    SysRegionDao sysRegionDao;
+
 
     @Test
     public void contextLoads() throws SQLException {
         //看一下默认数据源
         System.out.println(dataSource.getClass());
         //获得连接
-        Connection connection =   dataSource.getConnection();
+        Connection connection = dataSource.getConnection();
         System.out.println(connection);
 
         DruidDataSource druidDataSource = (DruidDataSource) dataSource;
@@ -60,7 +64,7 @@ public class ConnectionTest {
     }
 
     @Test
-    public void testConnection(){
+    public void testConnection() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             SysRegionMapper mapper = session.getMapper(SysRegionMapper.class);
 
@@ -74,15 +78,28 @@ public class ConnectionTest {
             sysRegions.stream().limit(3).forEach(System.out::println);
         }
     }
+
     @Test
-    public void testGetSysRuleByAreaCode(){
+    public void testGetSysRuleByAreaCode() {
         List<SysRule> sysRuleByAreaCode = sysRuleDao.getSysRuleByAreaCode(210000L);
         sysRuleByAreaCode.stream().forEach(System.out::println);
     }
 
     @Test
-    public void testGetSysRuleAndAboveByAreaCode(){
+    public void testGetSysRuleAndAboveByAreaCode() {
         Map<AreaEnum, List<SysRule>> sysRuleAndAboveByAreaCode = sysRuleDao.getSysRuleAndAboveByAreaCode(210211L);
         System.out.println(sysRuleAndAboveByAreaCode);
+    }
+
+    @Test
+    public void testProvince() {
+        List<SysRegion> allProvinces = sysRegionDao.getAllProvinces();
+        allProvinces.forEach(System.out::println);
+    }
+
+    @Test
+    public void testGetSubRegionByAreaCode() {
+        List<SysRegion> subRegionByAreaCode = sysRegionDao.getSubRegionById(10000072L);
+        subRegionByAreaCode.forEach(System.out::println);
     }
 }

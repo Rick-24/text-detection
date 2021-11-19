@@ -53,7 +53,7 @@ public class SysRuleDaoImpl implements SysRuleDao {
             SysRuleMapper mapper = session.getMapper(SysRuleMapper.class);
 
             SelectStatementProvider provider =
-                    select(id, filename, code)
+                    select(id, code, filename)
                             .from(sysRule)
                             .where(code, isEqualTo(areaCode))
                             .or(code, isEqualTo(areaCode / 100 * 100))
@@ -86,17 +86,17 @@ public class SysRuleDaoImpl implements SysRuleDao {
     public void insertSysRule(String fileName, Long areaCode) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             SysRuleMapper mapper = session.getMapper(SysRuleMapper.class);
-            SysRule r = SysRule.builder()
-                    .code(areaCode)
-                    .filename(fileName)
-                    .build();
-            InsertStatementProvider<SysRule> insertProvider = insert(r)
-                    .into(sysRule)
-                    .map(code).toProperty("filename")
-                    .map(filename).toProperty("fileName")
-                    .map(id).toProperty("id")
-                    .build().render(RenderingStrategies.MYBATIS3);
-            mapper.insert(insertProvider);
+            // SysRule r = SysRule.builder()
+            //         .code(areaCode)
+            //         .filename(fileName)
+            //         .build();
+            // InsertStatementProvider<SysRule> insertProvider = insert(r)
+            //         .into(sysRule)
+            //         .map(code).toProperty("filename")
+            //         .map(filename).toProperty("fileName")
+            //         .map(id).toProperty("id")
+            //         .build().render(RenderingStrategies.MYBATIS3);
+            // mapper.insert(insertProvider);
         }
     }
 }

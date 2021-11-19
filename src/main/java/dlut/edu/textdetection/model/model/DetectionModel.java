@@ -1,7 +1,11 @@
 package dlut.edu.textdetection.model.model;
 
+import dlut.edu.textdetection.model.model.spec.ResultSpec;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,21 +15,17 @@ import lombok.Data;
  */
 @Data
 public class DetectionModel {
-    /**
-     * 展示文案（对应规则）
-     */
-    private String text;
-    /**
-     * 输入文本（需高亮展示部分）
-     */
-    private String input;
-    /**
-     * 输入文本段号
-     */
-    private int segmentNum;
-    /**
-     * 输入文本句子号
-     */
-    private int sentenceNum;
 
+    /**
+     * 规则文件名称
+     */
+    private String ruleName;
+    /**
+     * 该文件的匹配规则
+     */
+    private List<ResultSpec> fileResult;
+
+    public DetectionModel(){
+        fileResult = new ArrayList<>();
+    }
 }

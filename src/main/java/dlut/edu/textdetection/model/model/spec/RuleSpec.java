@@ -18,18 +18,6 @@ public class RuleSpec {
      */
     private String sentence;
     /**
-     * 关键词
-     */
-    private List<String> keywords;
-    /**
-     * 第几章
-     */
-    private String zhang;
-    /**
-     * 第几条
-     */
-    private String tiao;
-    /**
      * 第几段
      */
     private int duan;

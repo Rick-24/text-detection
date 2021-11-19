@@ -55,7 +55,7 @@ http_pool:
   default_max_per_route: 100
   connect_timeout: 5000
   connection_request_timeout: 1000
-  socket_timeout: 65000
+  socket_timeout: 300000
   validate_after_inactivity: 2000
 
 rule:

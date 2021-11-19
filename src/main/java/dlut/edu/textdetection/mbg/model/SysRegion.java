@@ -5,7 +5,6 @@ import lombok.ToString;
 
 import javax.annotation.Generated;
 @ToString
-@Data
 public class SysRegion {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Long code;

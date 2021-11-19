@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class testFastJson {
     @Test
-    public void testFastJsonParse(){
+    public void testFastJsonParse() {
         String json = "[{'warehouse': {'sentence': '对年度实现规模以上工业总产值在全区排前五名的街道，分别奖励50万元、40万元、30万元、20万元、10万元',\n" +
                 "   'keywords': ['工业', '总产值', '规模', '实现', '全区', '街道', '年度', '奖励'],\n" +
                 "   'zhang': '第五章',\n" +
@@ -135,7 +135,8 @@ public class testFastJson {
                 "  'match_count': 3,\n" +
                 "  'matching_degree': 0}]";
 
-        List<DetectionResultDO> detectionResultDOS = JSON.parseObject(json, new TypeReference<List<DetectionResultDO>>() {});
+        List<DetectionResultDO> detectionResultDOS = JSON.parseObject(json, new TypeReference<List<DetectionResultDO>>() {
+        });
 
         System.out.println(detectionResultDOS);
     }

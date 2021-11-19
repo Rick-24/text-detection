@@ -8,8 +8,7 @@ import lombok.ToString;
 import javax.annotation.Generated;
 
 @ToString
-@Builder
-@Data
+
 public class SysRule {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Long id;

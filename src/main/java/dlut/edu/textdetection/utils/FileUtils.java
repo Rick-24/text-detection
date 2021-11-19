@@ -4,6 +4,7 @@ import dlut.edu.textdetection.init.ApplicationValues;
 import dlut.edu.textdetection.mbg.model.SysRule;
 import dlut.edu.textdetection.model.enums.AreaEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,11 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Author : hongwei.zhw
  * @create 2021/11/15 14:28
  */
+@Component
 public class FileUtils {
-    @Autowired
+
     private static ApplicationValues applicationValues;
 
     private FileUtils() {
+    }
+
+    @Autowired
+    public void setValues(ApplicationValues applicationValues) {
+        FileUtils.applicationValues = applicationValues;
     }
 
     public static String getRuleFileDir(Long areaCode) {
@@ -48,7 +55,7 @@ public class FileUtils {
             case PROVINCE:
                 result = code / 10000 + "/" + result;
         }
-        return rootPath + result;
+        return rootPath + result +".docx";
     }
 
 }
