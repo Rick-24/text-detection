@@ -21,6 +21,10 @@ public class DetectionModel {
      */
     private String ruleName;
     /**
+     * 规则文件地址
+     */
+    private String ruleFilePath;
+    /**
      * 该文件的匹配规则
      */
     private List<ResultSpec> fileResult;

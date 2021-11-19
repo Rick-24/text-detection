@@ -34,5 +34,13 @@ public class ResultSpec {
      * 输入文本句子号
      */
     private int ruleSentenceNum;
+    /**
+     * 匹配程度
+     */
+    private double similarity;
+
+    public String getInputPosition() {
+        return this.inputSegment + "-" + this.inputSentenceNum;
+    }
 
 }

@@ -1,6 +1,7 @@
 package dlut.edu.textdetection.model.model.result;
 
 import dlut.edu.textdetection.model.model.DetectionModel;
+import dlut.edu.textdetection.model.model.SentenceModel;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -20,9 +21,12 @@ public class DetectionResultDTO {
     private List<DetectionModel> cityModel;
     private List<DetectionModel> districtModel;
 
+    private List<SentenceModel> sentenceModel;
+
     public DetectionResultDTO(){
         provinceModel = new ArrayList<>();
         cityModel = new ArrayList<>();
         districtModel = new ArrayList<>();
+        sentenceModel = new ArrayList<>();
     }
 }
