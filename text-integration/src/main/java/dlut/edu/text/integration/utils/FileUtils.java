@@ -24,7 +24,6 @@ public class FileUtils {
     @Autowired
     public void setValues(ApplicationValues applicationValues) {
         FileUtils.applicationValues = applicationValues;
-        System.out.println("注入成功");
     }
 
     public static String parseFilePath(SysRule sysRule) {
