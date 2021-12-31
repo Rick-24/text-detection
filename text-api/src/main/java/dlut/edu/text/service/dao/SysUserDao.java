@@ -3,6 +3,7 @@ package dlut.edu.text.service.dao;
 import dlut.edu.text.integration.mbg.model.SysUser;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,4 +17,8 @@ public interface SysUserDao {
      * @return
      */
     List<SysUser> getAllUsers();
+
+    Optional<SysUser> getUserByName(String username);
+
+    List<String> getPermissions(String username);
 }
