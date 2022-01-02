@@ -1,4 +1,4 @@
-package dlut.edu.text.service.dao;
+package dlut.edu.text.service.service;
 
 import dlut.edu.text.integration.mbg.model.SysUser;
 import dlut.edu.text.integration.mbg.model.SysUserRole;
@@ -13,7 +13,7 @@ import java.util.Set;
  * @Author : hongwei.zhw
  * @create 2021/12/31 15:16
  */
-public interface SysUserDao {
+public interface SysUserService extends CrudService<SysUser>{
     /**
      * 找到所有的用户
      * @return

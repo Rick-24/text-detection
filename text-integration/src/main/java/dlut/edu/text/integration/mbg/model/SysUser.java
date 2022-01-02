@@ -2,6 +2,8 @@ package dlut.edu.text.integration.mbg.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Generated;
 
 public class SysUser {
@@ -46,6 +48,11 @@ public class SysUser {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Byte delFlag;
+
+    // 非数据库字段
+    private String roleNames;
+    // 非数据库字段
+    private List<SysUserRole> userRoles = new ArrayList<>();
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public Long getId() {
@@ -185,5 +192,18 @@ public class SysUser {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setDelFlag(Byte delFlag) {
         this.delFlag = delFlag;
+    }
+
+    public String getRoleNames() {
+        return roleNames;
+    }
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
+    }
+    public List<SysUserRole> getUserRoles() {
+        return userRoles;
+    }
+    public void setUserRoles(List<SysUserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }
