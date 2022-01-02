@@ -2,6 +2,7 @@ package dlut.edu.text.integration.mbg.mapper;
 
 import static dlut.edu.text.integration.mbg.mapper.SysUserDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.select;
 
 import dlut.edu.text.integration.mbg.model.SysUser;
 import java.util.List;
@@ -18,9 +19,11 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
 import org.mybatis.dynamic.sql.delete.render.DeleteStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
+import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.CountDSLCompleter;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
@@ -73,6 +76,16 @@ public interface SysUserMapper {
         @Result(column="del_flag", property="delFlag", jdbcType=JdbcType.TINYINT)
     })
     List<SysUser> selectMany(SelectStatementProvider selectStatement);
+
+    default Optional<SysUser> getByName(String name_){
+        SelectStatementProvider provider =
+                SqlBuilder.select(id, name, nickName, avatar, password, salt, email, mobile, status, createBy, createTime, lastUpdateBy, lastUpdateTime, delFlag)
+                        .from(sysUser)
+                        .where(name, isEqualTo(name_))
+                        .build().render(RenderingStrategies.MYBATIS3);
+        return selectOne(provider);
+    }
+
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")

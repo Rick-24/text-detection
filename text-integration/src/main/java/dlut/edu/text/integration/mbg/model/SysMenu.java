@@ -1,7 +1,11 @@
 package dlut.edu.text.integration.mbg.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.annotation.Generated;
 
 public class SysMenu {
@@ -43,6 +47,17 @@ public class SysMenu {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Byte delFlag;
+
+    @Getter
+    @Setter
+    private String parentName;
+    @Getter
+    @Setter
+    private Integer level;
+    @Getter
+    @Setter
+    private List<SysMenu> children;
+
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public Long getId() {

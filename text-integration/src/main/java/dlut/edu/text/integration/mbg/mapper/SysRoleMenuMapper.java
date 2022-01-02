@@ -88,6 +88,11 @@ public interface SysRoleMenuMapper {
         );
     }
 
+    default int deleteByRoleId(Long roleId_) {
+        return delete(c ->
+                c.where(roleId,isEqualTo(roleId_)));
+    }
+
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insert(SysRoleMenu record) {
         return MyBatis3Utils.insert(this::insert, record, sysRoleMenu, c ->
