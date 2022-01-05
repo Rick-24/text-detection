@@ -12,7 +12,7 @@ import java.util.Optional;
  * @Author : hongwei.zhw
  * @create 2022/1/2 17:51
  */
-public interface CrudService<T> {
+public interface CurdService<T> {
 
     /**
      * 保存操作

@@ -55,7 +55,7 @@ public interface SysUserMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("SysUserResult")
-    Optional<SysUser> selectOne(SelectStatementProvider selectStatement);
+    SysUser selectOne(SelectStatementProvider selectStatement);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
@@ -76,8 +76,9 @@ public interface SysUserMapper {
         @Result(column="del_flag", property="delFlag", jdbcType=JdbcType.TINYINT)
     })
     List<SysUser> selectMany(SelectStatementProvider selectStatement);
-
-    default Optional<SysUser> getByName(String name_){
+    
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default SysUser getByName(String name_){
         SelectStatementProvider provider =
                 SqlBuilder.select(id, name, nickName, avatar, password, salt, email, mobile, status, createBy, createTime, lastUpdateBy, lastUpdateTime, delFlag)
                         .from(sysUser)
@@ -147,7 +148,7 @@ public interface SysUserMapper {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<SysUser> selectOne(SelectDSLCompleter completer) {
+    default SysUser selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, sysUser, completer);
     }
 
@@ -162,7 +163,7 @@ public interface SysUserMapper {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<SysUser> selectByPrimaryKey(Long id_) {
+    default SysUser selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
@@ -246,4 +247,9 @@ public interface SysUserMapper {
             .where(id, isEqualTo(record::getId))
         );
     }
+    SelectStatementProvider getAll =
+            SqlBuilder.select(id, name, nickName, avatar, password, salt, email, mobile, status, createBy, createTime, lastUpdateBy, lastUpdateTime, delFlag)
+                    .from(sysUser)
+                    .build().render(RenderingStrategies.MYBATIS3);
+    
 }

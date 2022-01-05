@@ -1,4 +1,4 @@
-package dlut.edu.text.service.dao;
+package dlut.edu.text.service.service;
 
 import dlut.edu.text.integration.mbg.model.SysMenu;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * @Author : hongwei.zhw
  * @create 2021/12/31 15:14
  */
-public interface SysMenuDao {
+public interface SysMenuService extends CurdService<SysMenu> {
     /**
      * 查询菜单树,用户ID和用户名为空则查询全部
      * @param menuType 获取菜单类型，0：获取所有菜单，包含按钮，1：获取所有菜单，不包含按钮

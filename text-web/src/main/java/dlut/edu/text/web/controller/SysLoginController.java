@@ -25,8 +25,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Optional;
 
 /**
@@ -61,7 +63,6 @@ public class SysLoginController {
         request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
         response.setHeader(Constants.KAPTCHA_SESSION_KEY,text);
         log.info("验证码：：：：：：："+ text);
-        log.info("session"+request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY));
         ServletOutputStream out = response.getOutputStream();
         ImageIO.write(image, "jpg", out);
         IOUtils.closeQuietly(out);
@@ -75,6 +76,7 @@ public class SysLoginController {
         log.info("验证码：：：：："+ captcha);
         // 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
         Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        System.out.println(kaptcha);
         if(kaptcha == null){
             return HttpResult.error("验证码已失效");
         }

@@ -55,7 +55,7 @@ public interface SysRoleMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("SysRoleResult")
-    Optional<SysRole> selectOne(SelectStatementProvider selectStatement);
+    SysRole selectOne(SelectStatementProvider selectStatement);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
@@ -135,7 +135,7 @@ public interface SysRoleMapper {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<SysRole> selectOne(SelectDSLCompleter completer) {
+    default SysRole selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, sysRole, completer);
     }
 
@@ -150,7 +150,7 @@ public interface SysRoleMapper {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<SysRole> selectByPrimaryKey(Long id_) {
+    default SysRole selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );

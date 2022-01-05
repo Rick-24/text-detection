@@ -3,15 +3,14 @@ package dlut.edu.text.web.controller;
 import dlut.edu.text.common.consts.SysConstants;
 import dlut.edu.text.common.result.HttpResult;
 import dlut.edu.text.integration.mbg.model.SysUser;
+import dlut.edu.text.service.page.PageRequest;
 import dlut.edu.text.service.service.SysUserService;
 import dlut.edu.text.web.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -57,6 +56,42 @@ public class SysUserContrller {
             }
         }
         return HttpResult.ok(sysUserService.save(record));
+    }
+    
+    @PreAuthorize("hasAuthority('sys:user:delete')")
+    @PostMapping(value="/delete")
+    public HttpResult delete(@RequestBody List<SysUser> records) {
+        for(SysUser record:records) {
+            SysUser sysUser = sysUserService.findById(record.getId()).get();
+            if(sysUser != null && SysConstants.ADMIN.equalsIgnoreCase(sysUser.getName())) {
+                return HttpResult.error("超级管理员不允许删除!");
+            }
+        }
+        return HttpResult.ok(sysUserService.delete(records));
+    }
+    
+    @PreAuthorize("hasAuthority('sys:user:view')")
+    @GetMapping(value="/findByName")
+    public HttpResult findByUserName(@RequestParam String name) {
+        return HttpResult.ok(sysUserService.getUserByName(name));
+    }
+    
+    @PreAuthorize("hasAuthority('sys:user:view')")
+    @GetMapping(value="/findPermissions")
+    public HttpResult findPermissions(@RequestParam String name) {
+        return HttpResult.ok(sysUserService.getPermissions(name));
+    }
+    
+    @PreAuthorize("hasAuthority('sys:user:view')")
+    @GetMapping(value="/findUserRoles")
+    public HttpResult findUserRoles(@RequestParam Long userId) {
+        return HttpResult.ok(sysUserService.getUserRoles(userId));
+    }
+    
+    @PreAuthorize("hasAuthority('sys:user:view')")
+    @PostMapping(value="/findPage")
+    public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+        return HttpResult.ok(sysUserService.findPage(pageRequest));
     }
 
 }

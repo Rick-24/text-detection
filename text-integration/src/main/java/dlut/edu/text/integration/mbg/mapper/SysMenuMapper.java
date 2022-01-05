@@ -17,6 +17,7 @@ import org.mybatis.dynamic.sql.update.UpdateDSLCompleter;
 import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
+import org.mybatis.dynamic.sql.util.mybatis3.CommonDeleteMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 import javax.annotation.Generated;
@@ -34,7 +35,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 public interface SysMenuMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     BasicColumn[] selectList = BasicColumn.columnList(id, name, parentId, url, perms, type, icon, orderNum, createBy, createTime, lastUpdateBy, lastUpdateTime, delFlag);
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
@@ -42,17 +43,17 @@ public interface SysMenuMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "record.id", before = false, resultType = Long.class)
     int insert(InsertStatementProvider<SysMenu> insertStatement);
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("SysMenuResult")
     Optional<SysMenu> selectOne(SelectStatementProvider selectStatement);
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "SysMenuResult", value = {
@@ -71,25 +72,27 @@ public interface SysMenuMapper {
             @Result(column = "del_flag", property = "delFlag", jdbcType = JdbcType.TINYINT)
     })
     List<SysMenu> selectMany(SelectStatementProvider selectStatement);
-
-    default List<SysMenu> getAll() {
+    
+    default List<SysMenu> getAll(){
+        SelectStatementProvider selectStatement = SqlBuilder.select(sysMenu.allColumns())
+                .from(sysUser)
+                .join(sysUserRole).on(sysUserRole.userId, equalTo(sysUser.id))
+                .join(sysRoleMenu).on(sysRoleMenu.roleId, equalTo(sysUserRole.roleId))
+                .join(sysMenu).on(sysMenu.id, equalTo(sysRoleMenu.menuId))
+                .build().render(RenderingStrategies.MYBATIS3);
+        return selectMany(selectStatement);
+    }
+    
+    default List<SysMenu> getRoleMenus(Long roleId) {
         SelectStatementProvider selectStatement =
                 SqlBuilder.select(selectList)
                         .from(sysMenu)
+                        .join(sysRoleMenu).on(sysRoleMenu.menuId, equalTo(sysMenu.id))
+                        .where(sysRoleMenu.roleId, isEqualTo(roleId))
                         .build().render(RenderingStrategies.MYBATIS3);
         return selectMany(selectStatement);
     }
-
-    default List<SysMenu> getRoleMenus(Long roleId){
-        SelectStatementProvider selectStatement =
-                SqlBuilder.select(selectList)
-                        .from(sysMenu)
-                        .join(sysRoleMenu).on(sysRoleMenu.menuId,equalTo(sysMenu.id))
-                        .where(sysRoleMenu.roleId,isEqualTo(roleId))
-                        .build().render(RenderingStrategies.MYBATIS3);
-        return selectMany(selectStatement);
-    }
-
+    
     default List<SysMenu> getByUserName(String userName) {
         SelectStatementProvider selectStatement = SqlBuilder.select(sysMenu.allColumns())
                 .from(sysUser)
@@ -100,28 +103,28 @@ public interface SysMenuMapper {
                 .build().render(RenderingStrategies.MYBATIS3);
         return selectMany(selectStatement);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, sysMenu, completer);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, sysMenu, completer);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int deleteByPrimaryKey(Long id_) {
         return delete(c ->
                 c.where(id, isEqualTo(id_))
         );
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insert(SysMenu record) {
         return MyBatis3Utils.insert(this::insert, record, sysMenu, c ->
@@ -139,7 +142,7 @@ public interface SysMenuMapper {
                         .map(delFlag).toProperty("delFlag")
         );
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insertSelective(SysMenu record) {
         return MyBatis3Utils.insert(this::insert, record, sysMenu, c ->
@@ -157,34 +160,34 @@ public interface SysMenuMapper {
                         .map(delFlag).toPropertyWhenPresent("delFlag", record::getDelFlag)
         );
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default Optional<SysMenu> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, sysMenu, completer);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default List<SysMenu> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, sysMenu, completer);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default List<SysMenu> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, sysMenu, completer);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default Optional<SysMenu> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
                 c.where(id, isEqualTo(id_))
         );
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, sysMenu, completer);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateAllColumns(SysMenu record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(name).equalTo(record::getName)
@@ -200,7 +203,7 @@ public interface SysMenuMapper {
                 .set(lastUpdateTime).equalTo(record::getLastUpdateTime)
                 .set(delFlag).equalTo(record::getDelFlag);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(SysMenu record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(name).equalToWhenPresent(record::getName)
@@ -216,7 +219,7 @@ public interface SysMenuMapper {
                 .set(lastUpdateTime).equalToWhenPresent(record::getLastUpdateTime)
                 .set(delFlag).equalToWhenPresent(record::getDelFlag);
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKey(SysMenu record) {
         return update(c ->
@@ -235,7 +238,7 @@ public interface SysMenuMapper {
                         .where(id, isEqualTo(record::getId))
         );
     }
-
+    
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKeySelective(SysMenu record) {
         return update(c ->

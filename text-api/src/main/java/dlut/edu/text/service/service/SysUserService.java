@@ -13,7 +13,7 @@ import java.util.Set;
  * @Author : hongwei.zhw
  * @create 2021/12/31 15:16
  */
-public interface SysUserService extends CrudService<SysUser>{
+public interface SysUserService extends CurdService<SysUser> {
     /**
      * 找到所有的用户
      * @return
