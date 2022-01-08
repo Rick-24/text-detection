@@ -168,6 +168,23 @@ public interface SysUserMapper {
             c.where(id, isEqualTo(id_))
         );
     }
+    
+    default List<SysUser> findPageByName(String name_) {
+        SelectStatementProvider provider =
+                SqlBuilder.select(id, name, nickName, avatar, password, salt, email, mobile, status, createBy, createTime, lastUpdateBy, lastUpdateTime, delFlag)
+                        .from(sysUser)
+                        .where(name, isLike(name_))
+                        .build().render(RenderingStrategies.MYBATIS3);
+        return selectMany(provider);
+    }
+    
+    default List<SysUser> findPage(){
+        SelectStatementProvider provider =
+                SqlBuilder.select(id, name, nickName, avatar, password, salt, email, mobile, status, createBy, createTime, lastUpdateBy, lastUpdateTime, delFlag)
+                        .from(sysUser)
+                        .build().render(RenderingStrategies.MYBATIS3);
+        return selectMany(provider);
+    }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int update(UpdateDSLCompleter completer) {

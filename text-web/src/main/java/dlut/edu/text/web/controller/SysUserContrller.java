@@ -91,6 +91,7 @@ public class SysUserContrller {
     @PreAuthorize("hasAuthority('sys:user:view')")
     @PostMapping(value="/findPage")
     public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+        System.out.println(pageRequest.getParams());
         return HttpResult.ok(sysUserService.findPage(pageRequest));
     }
 

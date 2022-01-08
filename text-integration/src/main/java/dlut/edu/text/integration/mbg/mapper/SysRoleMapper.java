@@ -210,4 +210,11 @@ public interface SysRoleMapper {
             .where(id, isEqualTo(record::getId))
         );
     }
+    
+    default List<SysRole> findPage(){
+        SelectStatementProvider render = SqlBuilder.select(sysRole.allColumns())
+                .from(sysRole)
+                .build().render(RenderingStrategies.MYBATIS3);
+        return selectMany(render);
+    }
 }

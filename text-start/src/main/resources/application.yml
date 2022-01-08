@@ -59,7 +59,8 @@ http_pool:
   validate_after_inactivity: 2000
 
 rule:
-  root_path : F:/GitRepos/text-detection/src/main/resources/static/rule/
+  root_path : D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/
+#  root_path : F:/GitRepo/text-detection/text-core/src/main/resources/static/rule/
 server:
   port: 8001
 

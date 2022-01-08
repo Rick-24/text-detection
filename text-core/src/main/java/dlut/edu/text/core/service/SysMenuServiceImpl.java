@@ -3,6 +3,7 @@ package dlut.edu.text.core.service;
 import dlut.edu.text.common.consts.SysConstants;
 import dlut.edu.text.integration.mbg.mapper.SysMenuMapper;
 import dlut.edu.text.integration.mbg.model.SysMenu;
+import dlut.edu.text.service.page.MybatisPageHelper;
 import dlut.edu.text.service.page.PageRequest;
 import dlut.edu.text.service.page.PageResult;
 import dlut.edu.text.service.service.SysMenuService;
@@ -83,26 +84,33 @@ public class SysMenuServiceImpl implements SysMenuService {
     
     @Override
     public int save(SysMenu record) {
-        return 0;
+        if(record.getId() == null || record.getId()==0) {
+            return sysMenuMapper.insertSelective(record);
+        }
+        if(record.getParentId()==null){
+            record.setParentId(0L);
+        }
+        return sysMenuMapper.updateByPrimaryKeySelective(record);
     }
     
     @Override
     public int delete(SysMenu record) {
-        return 0;
+        return sysMenuMapper.deleteByPrimaryKey(record.getId());
     }
     
     @Override
     public int delete(List<SysMenu> records) {
-        return 0;
+        records.forEach(this::delete);
+        return 1;
     }
     
     @Override
     public Optional<SysMenu> findById(Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(sysMenuMapper.selectByPrimaryKey(id));
     }
     
     @Override
     public PageResult findPage(PageRequest pageRequest) {
-        return null;
+        return MybatisPageHelper.findPage(pageRequest,sysMenuMapper);
     }
 }

@@ -22,7 +22,7 @@ public class SysMenuController {
     private SysMenuService sysMenuService;
     
     @PreAuthorize("hasAuthority('sys:menu:add') AND hasAuthority('sys:menu:edit')")
-    @PostMapping
+    @PostMapping("/save")
     public HttpResult save(@RequestBody SysMenu record) {
         return HttpResult.ok(sysMenuService.save(record));
     }

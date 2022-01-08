@@ -52,7 +52,7 @@ public interface SysMenuMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("SysMenuResult")
-    Optional<SysMenu> selectOne(SelectStatementProvider selectStatement);
+    SysMenu selectOne(SelectStatementProvider selectStatement);
     
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
@@ -162,7 +162,7 @@ public interface SysMenuMapper {
     }
     
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<SysMenu> selectOne(SelectDSLCompleter completer) {
+    default SysMenu selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, sysMenu, completer);
     }
     
@@ -177,7 +177,7 @@ public interface SysMenuMapper {
     }
     
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<SysMenu> selectByPrimaryKey(Long id_) {
+    default SysMenu selectByPrimaryKey(Long id_) {
         return selectOne(c ->
                 c.where(id, isEqualTo(id_))
         );
@@ -256,5 +256,13 @@ public interface SysMenuMapper {
                         .set(delFlag).equalToWhenPresent(record::getDelFlag)
                         .where(id, isEqualTo(record::getId))
         );
+    }
+    
+    default List<SysMenu> findPage(){
+        SelectStatementProvider provider = SqlBuilder.select(sysMenu.allColumns())
+                .from(sysMenu)
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return selectMany(provider);
     }
 }
