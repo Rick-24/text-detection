@@ -3,6 +3,8 @@ package dlut.edu.text.service.result.spec;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  *
@@ -13,4 +15,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class KeyWordSpec {
     String keyWord;
+    List<Integer> startIndex;
 }
