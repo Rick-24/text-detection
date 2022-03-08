@@ -9,6 +9,7 @@ import lombok.Data;
  * @create 2021/10/28 13:15
  */
 @Data
+@Deprecated
 public class UserInputSpec {
     /**
      * 输入原话

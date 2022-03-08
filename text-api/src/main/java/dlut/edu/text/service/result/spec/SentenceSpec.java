@@ -1,5 +1,6 @@
 package dlut.edu.text.service.result.spec;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**

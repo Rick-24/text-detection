@@ -47,10 +47,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/webjars/springfox-swagger-ui/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/captcha.jpg**").permitAll()
                 .antMatchers("//actuator/**").permitAll()
                 .anyRequest().authenticated();
+        http.headers().frameOptions().disable();
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 

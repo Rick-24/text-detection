@@ -15,8 +15,11 @@ import java.util.List;
  */
 @Data
 public class DetectionResultDTO {
+    @Deprecated
     private List<DetectionModel> provinceModel;
+    @Deprecated
     private List<DetectionModel> cityModel;
+    @Deprecated
     private List<DetectionModel> districtModel;
 
     private List<SentenceModel> sentenceModel;

@@ -22,6 +22,11 @@ public class TextDetectionRequest implements Serializable {
      * 上传文件路径
      */
     private String filePath;
+    
+    /**
+     * 待匹配文件类别
+     */
+    private String category;
 
     /**
      * 上级文件路径

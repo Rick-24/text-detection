@@ -9,6 +9,7 @@ import lombok.Data;
  * @create 2021/10/28 13:14
  */
 @Data
+@Deprecated
 public class RuleSpec {
     /**
      * 原话

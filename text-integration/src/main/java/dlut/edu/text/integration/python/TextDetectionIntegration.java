@@ -2,6 +2,7 @@ package dlut.edu.text.integration.python;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import dlut.edu.text.common.config.PythonSwitch;
 import dlut.edu.text.integration.common.HttpService;
 import dlut.edu.text.integration.python.request.KeyWordDetectionRequest;
 import dlut.edu.text.integration.python.request.TextDetectionRequest;
@@ -20,9 +21,13 @@ import org.springframework.stereotype.Service;
 public class TextDetectionIntegration {
     @Autowired
     private HttpService httpService;
-
+    
     public DetectionResultDO textDetectionInvoke(TextDetectionRequest request) {
-        String result = httpService.POST4Object("127.0.0.1:2452/textDetection", request);
+        String uri = "127.0.0.1:2452/textDetection";
+        if (PythonSwitch.NEW_FILE_DETECT) {
+            uri = "127.0.0.1:2452/file/detect";
+        }
+        String result = httpService.POST4Object(uri, request);
         return JSON.parseObject(result, new TypeReference<DetectionResultDO>() {
         });
     }
@@ -30,11 +35,12 @@ public class TextDetectionIntegration {
     public KeyWordDetectionDO keyWordDetectionInvoke(KeyWordDetectionRequest request) {
         System.out.println(request);
         String result = httpService.POST4Object("127.0.0.1:2452/detect/keyword", request);
-        return JSON.parseObject(result,new TypeReference<KeyWordDetectionDO>() {});
+        return JSON.parseObject(result, new TypeReference<KeyWordDetectionDO>() {
+        });
         
     }
-
-
+    
+    
 }
 
 

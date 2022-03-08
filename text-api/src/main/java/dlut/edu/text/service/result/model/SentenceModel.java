@@ -22,6 +22,9 @@ public class SentenceModel {
     private int sentenceNum;
 
     private List<SentenceSpec> sentenceSpecList;
+    public SentenceModel(){
+        sentenceSpecList = new ArrayList<>();
+    }
 
     public SentenceModel(String input, int segmentNum, int sentenceNum) {
         this.input = input;
