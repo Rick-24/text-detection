@@ -1,0 +1,38 @@
+{
+  "sysRuleMap": {
+    "DISTRICT": [
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区企业挂牌上市补贴专项资金管理办法.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区应用技术研究与开发资金管理办法（修订）.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区鼓励外贸及跨境电子商务发展扶持资金暂行办法.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区推进人才资源开发十项措施（试行）.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区经济工作奖励暂行办法.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区经济工作奖励暂行办法实施细则.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区促进融资租赁行业发展扶持办法.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区支持科技创新若干规定.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/11/甘井子区总部经济扶持办法（试行）.docx"
+    ],
+    "PROVINCE": [
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省促进创业投资持续健康发展若干政策措施.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省人民政府促进辽宁沿海经济带发展的若干意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省人民政府关于加快农产品加工业发展的实施意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省人民政府关于加快构建大众创业万众创新支撑平台的实施意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省人民政府关于加快发展服务贸易的实施意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省企业技术创新专项资金管理办法.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省首台（套）重大技术装备专项补助资金管理办法.docx"
+    ],
+    "CITY": [
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市进一步促进投资增长十八条措施.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/中共大连市委大连市人民政府关于促进物流业发展的实施意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市跨境电子商务扶持资金管理暂行规定.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市人民政府办公厅关于继续执行支持生态科技创新城开发建设有关政策的通知.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市支持生态科技创新城开发建设的若干政策.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市人民政府办公厅关于加强市内四区经营性建设用地招商引资工作的指导意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市人民政府关于促进集成电路产业发展的实施意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市工程实验室管理暂行办法.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市鼓励制造业重点领域首台(套）技术设备示范应用推广资金管理办法.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市人民政府关于加快发展体育产业促进体育消费的实施意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市人民政府关于加快发展养老服务业的实施意见.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/2/大连市扩大对外开放积极利用外资若干政策措施.docx"
+    ]
+  }
+}

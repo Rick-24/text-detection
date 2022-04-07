@@ -1,7 +1,6 @@
 package dlut.edu.text.web.controller;
 
 
-import dlut.edu.text.common.consts.AreaEnum;
 import dlut.edu.text.common.result.InvokeResult;
 import dlut.edu.text.common.utils.InvokeResultUtils;
 import dlut.edu.text.common.utils.LogUtils;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j
@@ -65,9 +63,10 @@ public class TextDetectionController {
     public InvokeResult<DetectionResultDTO> fileDetectV2(Long areaCode, @RequestParam(value = "matchList", required = false) List<Long> matchList, @RequestParam("file") MultipartFile file) {
 
         try {
-            Map<AreaEnum, List<String>> sysRuleMap = ruleSearchService.getSysRuleAndAboveFilePath(areaCode);
+            // Map<AreaEnum, List<String>> sysRuleMap = ruleSearchService.getSysRuleAndAboveFilePath(areaCode);
             String savedPath = fileLocalStorageService.fileStorageToBeDetected(file);
-            DetectionResultDTO result = textDetectionService.processLocalFile(savedPath, sysRuleMap);
+            // DetectionResultDTO result = textDetectionService.processLocalFile(savedPath, sysRuleMap);
+            DetectionResultDTO result = textDetectionService.processLocalFile(savedPath);
             // todo 是不是需要排个序
             return InvokeResultUtils.buildSuccessInvokeResult(result);
         } catch (Exception e) {

@@ -1,0 +1,26 @@
+{
+  "sysRuleMap": {
+    "NATION": [
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院关于印发中国(辽宁)自由贸易试验区总体方案的通知.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院关于同意将辽宁省辽阳市列为国家历史文化名城的批复.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院关于同意将辽宁省辽阳市列为国家历史文化名城的批复 (1).docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院关于辽宁沿海经济带高质量发展规划的批复.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院关于辽宁省海洋功能区划(2011―2020年)的批复（2012年).docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院关于辽宁省海洋功能区划的批复（2004年).docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院办公厅关于公布辽宁五花顶等6处新建国家级自然保护区名单的通知.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院办公厅关于公布辽宁大黑山等21处新建国家级自然保护区名单的通知.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/国务院办公厅关于公布辽宁楼子山等18处新建国家级自然保护区名单的通知.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/中华人民共和国海洋环境保护法(2017修正).docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/全国人民代表大会常务委员会关于修改《中华人民共和国海洋环境保护法》的决定(2016).docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/全国人民代表大会常务委员会关于成立辽宁省第十二届人民代表大会第七次会议筹备组的决定.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/全国人民代表大会常务委员会关于我国加入《防止倾倒废物及其他物质污染海洋的公约》的决定.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/全国人民代表大会常务委员会关于批准《辽宁省喀喇沁左翼蒙古族自治县人民代表大会和人民委员会组织条例》的决议.docx"
+    ],
+    "PROVINCE": [
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省海洋环境保护办法（2006年).docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省海洋渔业安全管理条例（2003年).docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省农业农村厅关于印发辽宁省海洋渔业船舶北斗船载终端设备安装使用管理办法的通知（2021年）.docx",
+      "D:/GitRepo/text-detection/text-core/src/main/resources/static/rule/21/辽宁省人民政府关于废止《辽宁省海洋渔业生产安全管理暂行规定》的决定）（2003年）.docx"
+    ]
+  }
+}
