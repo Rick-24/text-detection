@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,16 +33,18 @@ public class SysRoleController {
     @PreAuthorize("hasAuthority('sys:role:add') AND hasAuthority('sys:role:edit')")
     @PostMapping(value="/save")
     public HttpResult save(@RequestBody SysRole record) {
-        SysRole role = sysRoleService.findById(record.getId()).get();
-        if(role != null) {
-            if(SysConstants.ADMIN.equalsIgnoreCase(role.getName())) {
-                return HttpResult.error("超级管理员不允许修改!");
-            }
-        }
         // 新增角色
         if((record.getId() == null || record.getId() ==0) && !sysRoleService.findByName(record.getName()).isEmpty()) {
             return HttpResult.error("角色名已存在!");
         }
+        Optional<SysRole> optionalSysRole = sysRoleService.findById(record.getId());
+        if (optionalSysRole.isPresent()) {
+            if(SysConstants.ADMIN.equalsIgnoreCase(optionalSysRole.get().getName())) {
+                return HttpResult.error("超级管理员不允许修改!");
+            }
+        }
+        record.setCreateTime(LocalDateTime.now());
+        record.setCreateBy("admin");
         return HttpResult.ok(sysRoleService.save(record));
     }
     

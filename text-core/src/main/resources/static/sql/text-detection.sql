@@ -7651,4 +7651,12 @@ values (null, '210000', '辽宁省促进创业投资持续健康发展若干政�
 UNLOCK
 TABLES;
 
-
+DROP TABLE IF EXISTS `sys_detect_log`;
+CREATE TABLE `sys_detect_log`
+(
+    `id`       BIGINT(11) unsigned NOT NULL AUTO_INCREMENT,
+    `date`     datetime NOT NULL COMMENT '检测时间',
+    `resultPath` varchar(256) NOT NULL COMMENT '检测文件地址',
+    `filePath` varchar(256) NOT NULL COMMENT '文件地址',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB;

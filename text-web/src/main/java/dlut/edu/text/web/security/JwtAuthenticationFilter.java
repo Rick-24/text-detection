@@ -18,7 +18,6 @@ import java.io.IOException;
  * @Author : hongwei.zhw
  * @create 2022/1/2 16:09
  */
-@Component
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     @Autowired
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
