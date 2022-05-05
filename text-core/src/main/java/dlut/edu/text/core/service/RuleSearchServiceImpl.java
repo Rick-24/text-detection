@@ -23,28 +23,30 @@ import java.util.stream.Collectors;
 @Service
 public class RuleSearchServiceImpl implements RuleSearchService {
 
-    @Autowired
-    private SysRuleDao sysRuleDao;
+    //@Autowired
+    //private SysRuleDao sysRuleDao;
 
     @Override
     public List<String> getSysRuleFilePath(Long areaCode) {
-        List<SysRule> sysRules = sysRuleDao.getSysRuleByAreaCode(areaCode);
-        return sysRules.stream().map(FileUtils::parseFilePath).collect(Collectors.toList());
+        //List<SysRule> sysRules = sysRuleDao.getSysRuleByAreaCode(areaCode);
+        //return sysRules.stream().map(FileUtils::parseFilePath).collect(Collectors.toList());
+        return null;
     }
 
     @Override
     public Map<AreaEnum, List<String>> getSysRuleAndAboveFilePath(Long areaCode) {
-        Map<AreaEnum, List<SysRule>> areaEnumListMap = sysRuleDao.getSysRuleAndAboveByAreaCode(areaCode);
-
-        Map<AreaEnum, List<String>> result = new HashMap<>(3);
-        for (Map.Entry<AreaEnum, List<SysRule>> entry : areaEnumListMap.entrySet()) {
-            List<String> filePaths = entry.getValue().stream()
-                    .map(FileUtils::parseFilePath)
-                    .collect(Collectors.toList());
-            result.computeIfAbsent(entry.getKey(), key -> new ArrayList<String>())
-                    .addAll(filePaths);
-        }
-        return result;
+        //Map<AreaEnum, List<SysRule>> areaEnumListMap = sysRuleDao.getSysRuleAndAboveByAreaCode(areaCode);
+        //
+        //Map<AreaEnum, List<String>> result = new HashMap<>(3);
+        //for (Map.Entry<AreaEnum, List<SysRule>> entry : areaEnumListMap.entrySet()) {
+        //    List<String> filePaths = entry.getValue().stream()
+        //            .map(FileUtils::parseFilePath)
+        //            .collect(Collectors.toList());
+        //    result.computeIfAbsent(entry.getKey(), key -> new ArrayList<String>())
+        //            .addAll(filePaths);
+        //}
+        //return result;
+        return null;
     }
 
 }

@@ -40,8 +40,8 @@ public class FileLocalStorageServiceImpl implements FileLocalStorageService {
     
     @Override
     public <T> T fileRead(Class<T> clazz, String filePath) {
-    
-        File file= new File(filePath);
+        
+        File file = new File(filePath);
         try {
             String json = FileUtils.readFileToString(file, "utf-8");
             return JSON.parseObject(json, clazz);
@@ -52,7 +52,7 @@ public class FileLocalStorageServiceImpl implements FileLocalStorageService {
     }
     
     @Override
-    public String resultStorage(DetectionResultDTO result,String originFileName) {
+    public String resultStorage(DetectionResultDTO result, String originFileName) {
         String json = JSON.toJSONString(result,
                 SerializerFeature.PrettyFormat,
                 SerializerFeature.WriteMapNullValue,
@@ -112,9 +112,8 @@ public class FileLocalStorageServiceImpl implements FileLocalStorageService {
     }
     
     @Override
-    public void fileStorageToBeRules(Long areaCode, MultipartFile... files) {
+    public String fileStorageToBeRules(Long areaCode, MultipartFile file) {
         try {
-            
             String rootPath = applicationValues.getRootPath();
             String fileDir = rootPath + BaseFileUtils.getRuleFileDir(areaCode);
             File dir = new File(fileDir);
@@ -122,20 +121,15 @@ public class FileLocalStorageServiceImpl implements FileLocalStorageService {
                 dir.mkdirs();
             }
             
-            List<String> fileNames = Arrays.stream(files)
-                    .map(MultipartFile::getOriginalFilename)
-                    .map(originalFimeName -> fileDir + originalFimeName)
-                    .collect(Collectors.toList());
-            
-            for (MultipartFile file : files) {
-                File savedFile = new File(fileDir + file.getOriginalFilename());
-                file.transferTo(savedFile);
-                LogUtils.info(log, "文件写入成功，路径为：{0}", new Object[]{savedFile.getPath()});
-            }
-            
+            String fileName = fileDir + file.getOriginalFilename();
+            File savedFile = new File(fileName);
+            file.transferTo(savedFile);
+            LogUtils.info(log, "文件写入成功，路径为：{0}", new Object[]{savedFile.getPath()});
+            return fileName;
         } catch (IOException e) {
             LogUtils.error(log, e, "文件写入失败");
         }
+        return "";
     }
     
 }

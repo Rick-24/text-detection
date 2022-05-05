@@ -1,6 +1,7 @@
 package dlut.edu.text.integration.mbg.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDateTime;
 import javax.annotation.Generated;
 
 public class SysRule {
@@ -12,6 +13,12 @@ public class SysRule {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String filename;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    private LocalDateTime date;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    private String filepath;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public Long getId() {
@@ -41,5 +48,25 @@ public class SysRule {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setFilename(String filename) {
         this.filename = filename == null ? null : filename.trim();
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public String getFilepath() {
+        return filepath;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public void setFilepath(String filepath) {
+        this.filepath = filepath == null ? null : filepath.trim();
     }
 }

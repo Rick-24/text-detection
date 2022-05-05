@@ -25,7 +25,7 @@ public interface FileLocalStorageService {
      * @param files    文件
      * @return
      */
-    void fileStorageToBeRules(Long areaCode, MultipartFile... files);
+    String fileStorageToBeRules(Long areaCode, MultipartFile files);
     
     /**
      * 合规性检测结果保存

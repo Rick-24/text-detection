@@ -1,27 +1,14 @@
 package dlut.edu.text.integration.mbg.mapper;
 
-import static dlut.edu.text.integration.mbg.mapper.SysRuleDynamicSqlSupport.*;
-import static org.mybatis.dynamic.sql.SqlBuilder.*;
-
 import dlut.edu.text.integration.mbg.model.SysRule;
-import java.util.List;
-import java.util.Optional;
-import javax.annotation.Generated;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectKey;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
 import org.mybatis.dynamic.sql.delete.render.DeleteStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
-import org.mybatis.dynamic.sql.insert.render.MultiRowInsertStatementProvider;
+import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.CountDSLCompleter;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
@@ -32,10 +19,16 @@ import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
+import javax.annotation.Generated;
+import java.util.List;
+
+import static dlut.edu.text.integration.mbg.mapper.SysRuleDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+
 @Mapper
 public interface SysRuleMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    BasicColumn[] selectList = BasicColumn.columnList(id, code, filename);
+    BasicColumn[] selectList = BasicColumn.columnList(id, code, filename, date, filepath);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
@@ -53,14 +46,16 @@ public interface SysRuleMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("SysRuleResult")
-    Optional<SysRule> selectOne(SelectStatementProvider selectStatement);
+    SysRule selectOne(SelectStatementProvider selectStatement);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="SysRuleResult", value = {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="code", property="code", jdbcType=JdbcType.BIGINT),
-        @Result(column="fileName", property="filename", jdbcType=JdbcType.VARCHAR)
+        @Result(column="fileName", property="filename", jdbcType=JdbcType.VARCHAR),
+        @Result(column="date", property="date", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="filePath", property="filepath", jdbcType=JdbcType.VARCHAR)
     })
     List<SysRule> selectMany(SelectStatementProvider selectStatement);
 
@@ -80,7 +75,7 @@ public interface SysRuleMapper {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int deleteByPrimaryKey(Long id_) {
-        return delete(c -> 
+        return delete(c ->
             c.where(id, isEqualTo(id_))
         );
     }
@@ -90,6 +85,8 @@ public interface SysRuleMapper {
         return MyBatis3Utils.insert(this::insert, record, sysRule, c ->
             c.map(code).toProperty("code")
             .map(filename).toProperty("filename")
+            .map(date).toProperty("date")
+            .map(filepath).toProperty("filepath")
         );
     }
 
@@ -98,14 +95,13 @@ public interface SysRuleMapper {
         return MyBatis3Utils.insert(this::insert, record, sysRule, c ->
             c.map(code).toPropertyWhenPresent("code", record::getCode)
             .map(filename).toPropertyWhenPresent("filename", record::getFilename)
+            .map(date).toPropertyWhenPresent("date", record::getDate)
+            .map(filepath).toPropertyWhenPresent("filepath", record::getFilepath)
         );
     }
 
-    @InsertProvider(type=SqlProviderAdapter.class, method="insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<SysRule> insertStatement);
-
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<SysRule> selectOne(SelectDSLCompleter completer) {
+    default SysRule selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, sysRule, completer);
     }
 
@@ -120,9 +116,14 @@ public interface SysRuleMapper {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<SysRule> selectByPrimaryKey(Long id_) {
+    default SysRule selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
+        );
+    }
+    default SysRule selectByFileName(String _fileName) {
+        return selectOne(c ->
+                c.where(filename,isEqualTo(_fileName))
         );
     }
 
@@ -134,13 +135,17 @@ public interface SysRuleMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateAllColumns(SysRule record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(code).equalTo(record::getCode)
-                .set(filename).equalTo(record::getFilename);
+                .set(filename).equalTo(record::getFilename)
+                .set(date).equalTo(record::getDate)
+                .set(filepath).equalTo(record::getFilepath);
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(SysRule record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(code).equalToWhenPresent(record::getCode)
-                .set(filename).equalToWhenPresent(record::getFilename);
+                .set(filename).equalToWhenPresent(record::getFilename)
+                .set(date).equalToWhenPresent(record::getDate)
+                .set(filepath).equalToWhenPresent(record::getFilepath);
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -148,6 +153,8 @@ public interface SysRuleMapper {
         return update(c ->
             c.set(code).equalTo(record::getCode)
             .set(filename).equalTo(record::getFilename)
+            .set(date).equalTo(record::getDate)
+            .set(filepath).equalTo(record::getFilepath)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -157,7 +164,17 @@ public interface SysRuleMapper {
         return update(c ->
             c.set(code).equalToWhenPresent(record::getCode)
             .set(filename).equalToWhenPresent(record::getFilename)
+            .set(date).equalToWhenPresent(record::getDate)
+            .set(filepath).equalToWhenPresent(record::getFilepath)
             .where(id, isEqualTo(record::getId))
         );
     }
+    
+    default List<SysRule> findPage(){
+        SelectStatementProvider render = SqlBuilder.select(sysRule.allColumns())
+                .from(sysRule)
+                .build().render(RenderingStrategies.MYBATIS3);
+        return selectMany(render);
+    }
+
 }
